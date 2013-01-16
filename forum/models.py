@@ -4,7 +4,8 @@ from django.db import models
 from core.models import Content, Comment
 
 class ForumTopic(Content):
-    karma = models.IntegerField(editable=False)
+    '''The initial Content for a forum topic'''
+    karma = models.SmallIntegerField(editable=False)
 
     class Meta:
         verbose_name = u'forumemne'
@@ -12,7 +13,9 @@ class ForumTopic(Content):
 
 
 class ForumComment(Comment):
+    '''Comments to a forum topic'''
     topic = models.ForeignKey(ForumTopic, editable=False)
+    karma = models.SmallIntegerField(editable=False)
 
     class Meta:
         verbose_name = u'forumkommentar'

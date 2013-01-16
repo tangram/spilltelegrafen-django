@@ -1,0 +1,11 @@
+<a href="{{ user.profile.url }}">
+    <img class="avatar" src="{{ user.image.url }}" alt="{{ user.name }}">
+</a>
+<div>
+    <a href="{{ topic.url }}">{{ topic.name }}</a>
+</div>
+<div class="meta">
+    <span class="comment-count">{{ topic.comment_count }} kommentarer</span>
+    <span class="last-commenter">Siste av {{ topic.last_commenter }}</span>
+    <span class="last-update">{{ topic.last_update }}</span>
+</div>

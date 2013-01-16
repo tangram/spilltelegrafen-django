@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ page.title }}
+{% endblock %}
+
+{% block meta %}
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block title %}
+{% include template_name %}
+<ul class="topics">
+	{% for topic in topics %}
+	<li>
+		{{ topic }}
+	</li>
+	{% endfor %}
+</ul>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

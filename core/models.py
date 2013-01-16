@@ -4,9 +4,9 @@ from django.db import models
 from django.contrib.auth.models import User
 # from imagekit.models import ImageSpecField
 
-
 # USERS
 class UserProfile(models.Model):
+    '''User profile, connected to a User'''
     user = models.OneToOneField(User, editable=False)
     user_img = models.ImageField(
         u'Brukerbilde', upload_to='brukerbilder')
@@ -28,6 +28,7 @@ class UserProfile(models.Model):
 
 # CONTENT
 class Content(models.Model):
+    '''Abstract base class for content (e.g. page, post)'''
     title = models.CharField(u'Tittel', max_length=255)
     author = models.ForeignKey(
         User, null=True, on_delete=models.SET_NULL, editable=False)
@@ -50,16 +51,17 @@ class Content(models.Model):
 
 
 class Comment(models.Model):
+    '''Abstract base class for comments.
+       Needs a ForeignKey to subclass of Content,
+       i.e. the Content to which it is a comment.'''
     author = models.ForeignKey(
         User, null=True, on_delete=models.SET_NULL, editable=False)
     # content = models.ForeignKey(Content, editable=False)
-    parent = models.ForeignKey('self', editable=False)
 
-    # parent on_delete?
-
-    created_time = models.DateTimeField(auto_now_add=True, editable=False)
-    edited_time = models.DateTimeField(auto_now=True, editable=False)
-    karma = models.IntegerField(editable=False)
+    created_time = models.DateTimeField(
+        auto_now_add=True, editable=False)
+    edited_time = models.DateTimeField(
+        auto_now=True, editable=False)
 
     body = models.TextField(u'Kommentar')
 
@@ -71,6 +73,7 @@ class Comment(models.Model):
 
 
 class Tag(models.Model):
+    '''Generic tag model'''
     name = models.CharField(max_length=64)
 
     def __unicode__(self):
@@ -81,6 +84,7 @@ class Tag(models.Model):
 
 
 class StaticPage(Content):
+    '''Generic static page model'''
     class Meta:
         verbose_name = u'fast side'
         verbose_name_plural = u'faste sider'
