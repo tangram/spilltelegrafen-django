@@ -2,21 +2,30 @@
 
 from django.db import models
 from core.models import Content, Comment
+from django.contrib.auth.models import User
 
-class ForumTopic(Content):
-    '''The initial Content for a forum topic'''
-    karma = models.SmallIntegerField(editable=False)
+class Kudos(models.Model):
+    '''Kudos class, inherit to add kudos'''
+    kudos = models.ManyToManyField(User, editable=False)
+    given = models.DateTimeField(auto_now_add=True, editable=False)
 
     class Meta:
-        verbose_name = u'forumemne'
-        verbose_name_plural = u'forumemner'
+        verbose_name = u'kudos'
+        verbose_name_plural = u'kudos'
 
 
-class ForumComment(Comment):
+class ForumComment(Comment, Kudos):
     '''Comments to a forum topic'''
-    topic = models.ForeignKey(ForumTopic, editable=False)
-    karma = models.SmallIntegerField(editable=False)
 
     class Meta:
         verbose_name = u'forumkommentar'
         verbose_name_plural = u'forumkommentarer'
+
+
+class ForumTopic(Content, Kudos):
+    '''The initial Content for a forum topic'''
+    topic = models.ManyToManyField(ForumComment, editable=False)
+
+    class Meta:
+        verbose_name = u'forumemne'
+        verbose_name_plural = u'forumemner'

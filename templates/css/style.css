@@ -1,9 +1,9 @@
 body { font-family: Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
 
 h1, h2, h3, h4, h5, h6 { line-height: 1; margin: 0 0 1.25em; }
-h1 { font-size: 3em; margin-bottom: 0.25em; }
-h2 { font-size: 2em; margin-bottom: 0.5em; }
-h3 { font-size: 1.5em; margin-bottom: 0.75em; }
+h1 { font-size: 2.8em; margin-bottom: .1em; }
+h2 { font-size: 2em; margin-bottom: .5em; }
+h3 { font-size: 1.5em; margin-bottom: .75em; }
 h4 { font-size: 1.25em; margin-bottom: 1em; }
 h5 { font-size: 1em; }
 h6 { font-size: 1em; }
@@ -15,3 +15,122 @@ ol { list-style-type: decimal; }
  
 a { color: #059; text-decoration: none; }
 a:hover { text-decoration: underline; }
+
+/*
+    Responsive Grid System
+    Based on 12 col responsive.gs by Denis Leblanc
+    Licensed under GPL & MIT
+*/
+
+.three,
+.four,
+.six,
+.eight,
+.nine,
+.twelve,
+.row {
+    box-sizing:border-box
+}
+.row:after,
+.col:after,
+.clear:after,
+.group:after {
+    content:"";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden
+}
+.col {
+    display:block;
+    float:left;
+    width:100%
+}
+.col:first-child {
+    margin-left:0
+}
+@media(min-width: 640px){
+    .col {
+        margin-left:2%
+    }
+    .three {
+        width:23.5%
+    }
+    .four {
+        width:32%
+    }
+    .six {
+        width:49%
+    }
+    .eight {
+        width:66%
+    }
+    .nine {
+        width:74.5%
+    }
+}
+
+/* UTILITY */
+
+.left { float: left; }
+.right { float: right; }
+.left.margin { margin: 0 1em 1em 0 }
+.right.margin { margin: 0 0 1em 1em }
+
+.ir { display: block; border: 0; text-indent: -999em; overflow: hidden; background-color: transparent; background-repeat: no-repeat; text-align: left; direction: ltr; *line-height: 0; }
+.ir br { display: none; }
+.hidden { display: none !important; visibility: hidden; }
+.visuallyhidden { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
+.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus { clip: auto; height: auto; margin: 0; overflow: visible; position: static; width: auto; }
+.invisible { visibility: hidden; }
+
+/* STYLES */
+
+form input {
+	display: block;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+	padding: 5px;
+	margin: 0 0 .5em
+}
+.button {
+	padding: 5px 2em;
+	background: #f5f5f5;
+	font-weight: bold;
+}
+.button:hover {
+	background: #eee;
+}
+header,
+body > .content,
+footer {
+	width: 100%;
+	max-width: 60em;
+	margin: 0 auto;
+	padding: 1em;
+	box-sizing: border-box;
+}
+header,
+footer {
+	background: #eee;
+}
+.logo {
+	margin: 0 10px 0 0;
+}
+.sitename {
+	display: inline-block;
+}
+.search-form {
+	float: right;
+	margin: .55em 0 0;
+}
+.search-form input {
+	display: inline-block;
+	margin: 0;
+}
+.search-submit {
+	font-weight: normal;
+	padding: 5px;
+	width: 32px;
+	background: #f5f5f5 url('/static/img/search.png') no-repeat center;
+}

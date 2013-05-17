@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block title %}
 {{ page.title }}
@@ -13,15 +13,15 @@
 {% block header %}
 {% endblock %}
 
-{% block title %}
-{% include template_name %}
-<ul class="topics">
-	{% for topic in topics %}
-	<li>
-		{{ topic }}
-	</li>
-	{% endfor %}
-</ul>
+{% block content %}
+<div class="right">{% include "pagination.html" %}</div>
+<h2>{{ page.title }}</h2>
+{% for comment in page.content %}
+{% include "comment.html" %}
+{% endfor %}
+{% include "comment_form.html" %}
+<a class="back" href="{% url forum %}">Alle diskusjoner</a>
+<div class="right">{% include "pagination.html" %}</div>
 {% endblock %}
 
 {% block footer %}

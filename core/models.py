@@ -2,21 +2,14 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-# from imagekit.models import ImageSpecField
 
 # USERS
 class UserProfile(models.Model):
     '''User profile, connected to a User'''
-    user = models.OneToOneField(User, editable=False)
-    user_img = models.ImageField(
+    user = models.OneToOneField(User)
+    image = models.ImageField(
         u'Brukerbilde', upload_to='brukerbilder')
-    # avatar = ImageSpecField(
-    #     u'Avatar', [ResizeToFill(50, 50)], image_field='user_img')
 
-    allow_private_messages = models.BooleanField(
-        u'Tillat private meldinger?', default=True)
-    mail_on_private_message = models.BooleanField(
-        u'Få mail når du mottar private meldinger?', default=True)
     mail_on_comment = models.BooleanField(
         u'Få mail ved svar på kommentar eller innlegg?', default=True)
 
@@ -37,7 +30,10 @@ class Content(models.Model):
     edited_time = models.DateTimeField(auto_now=True, editable=False)
     publish_time = models.DateTimeField(
         u'Publikasjonstidspunkt', auto_now_add=True)
-    # comments_allowed = models.BooleanField(editable=False)
+
+    status = models.PositiveSmallIntegerField(default=1, editable=False)  # seems like a good idea
+    comments = models.PositiveSmallIntegerField(default=0, editable=False)
+    views = models.PositiveSmallIntegerField(default=0, editable=False)
 
     body = models.TextField(u'Brødtekst')
 
@@ -51,12 +47,9 @@ class Content(models.Model):
 
 
 class Comment(models.Model):
-    '''Abstract base class for comments.
-       Needs a ForeignKey to subclass of Content,
-       i.e. the Content to which it is a comment.'''
+    '''Abstract base class for comments.'''
     author = models.ForeignKey(
         User, null=True, on_delete=models.SET_NULL, editable=False)
-    # content = models.ForeignKey(Content, editable=False)
 
     created_time = models.DateTimeField(
         auto_now_add=True, editable=False)
@@ -88,3 +81,42 @@ class StaticPage(Content):
     class Meta:
         verbose_name = u'fast side'
         verbose_name_plural = u'faste sider'
+
+
+# MEDIA
+class Image(models.Model):
+    '''Generic class for resizable images'''
+    orig_image = models.ImageField(u'Originalt bilde', upload_to='originaler')
+
+    # there must be some low level file stuff to be handled in an Image class
+
+    class Meta:
+        verbose_name = u'bilde'
+        verbose_name_plural = u'bilder'
+
+
+# FLAGS
+class Flag(models.Model):
+    '''Generic active boolean marking'''
+    name = models.CharField(max_length=255)
+
+    is_global = models.BooleanField(default=False)
+
+    flag_text = models.CharField(max_length=255)
+    flag_description = models.CharField(max_length=255)
+    flagged_message = models.CharField(max_length=255)
+    unflag_text = models.CharField(max_length=255)
+    unflag_description = models.CharField(max_length=255)
+    unflagged_message = models.CharField(max_length=255)
+
+    SUBJECT_CHOICES = (
+        (u'none',  u'Ingen'),
+        (u'self',  u'Kun eget innhold'),
+        (u'other', u'Kun andres innhold'),
+    )
+    subject_restriction = models.CharField(max_length=16, choices=SUBJECT_CHOICES)
+
+    class Meta:
+        abstract = True
+        verbose_name = u'flagg'
+        verbose_name_plural = u'flagg'

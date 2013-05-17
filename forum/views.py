@@ -1,12 +1,22 @@
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render
+from forms import LoginForm
 
 def index(request):
-    return render_to_response('base_forum.html')
+    variables = {
+        'page': {
+            'title': 'Alle diskusjoner'
+        },
+    }
+
+    if not request.user.is_authenticated():
+        variables['login_form'] = LoginForm()
+
+    return render(request, 'base_forum.html', variables)
 
 def topic_header(request):
     variables = {}
-    return render('topic_header.html', variables)
+    return render(request, 'topic_header.html', variables)
 
 def topic(request):
     variables = {}
-    return render('topic_header.html', variables)
+    return render(request, 'topic_header.html', variables)

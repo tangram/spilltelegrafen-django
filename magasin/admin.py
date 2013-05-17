@@ -1,5 +1,5 @@
 from django.contrib import admin
-from magasin.models import Artikkel
+from magasin.models import Article
 from imperavi.admin import ImperaviAdmin
 
-admin.site.register(Artikkel, ImperaviAdmin)
+admin.site.register(Article, ImperaviAdmin)
