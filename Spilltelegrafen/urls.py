@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^imperavi/', include('imperavi.urls')),
 
     url(r'^$', 'forum.views.index', name='index'),
+    url(r'^logg-ut$', 'forum.views.user_logout', name='logout'),
     url(r'^diskusjon/ny$', 'forum.views.post_discussion', name='post_discussion'),
     url(r'^diskusjon/(?P<discussion_id>[\d]+)$', 'forum.views.get_discussion', name='get_discussion'),
     

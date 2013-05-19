@@ -18,6 +18,10 @@
                 <div class="eight col">
                     <a href="/"><img id="logo" class="left" src="/static/img/logo.png"></a>
                     <a href="/"><h1 id="sitename">Spilltelegrafen forum</h1></a>
+                    {% if user.is_authenticated %}
+                    <a href="{{ user.profile.get_absolute_url }}">{{ user }}</a>
+                    <a href="{% url logout %}">Logg ut</a>
+                    {% endif %}
                 </div>
                 <div class="four col">
                     <form class="search-form" action="{% url index %}" method="get">

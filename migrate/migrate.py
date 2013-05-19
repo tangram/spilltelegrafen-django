@@ -1,12 +1,12 @@
 #!/usr/bin/python
-#coding: utf-8
+# coding: utf-8
 
 import MySQLdb
 import json
 
 db = MySQLdb.connect(
     host='127.0.0.1',
-    user='',
+    user='root',
     passwd='',
     db='vanilla'
 )
@@ -27,7 +27,7 @@ for user in cur.fetchall():
             'model': 'auth.user',
             'fields': {
                 'username': user['Name'],
-                'password': user['Password'],
+                'password': user['Password'][1:],  # django doesn't use first $
                 'email': user['Email'],
             }
         }
@@ -59,11 +59,11 @@ for discussion in cur.fetchall():
                 'author': discussion['InsertUserID'],
                 'body': discussion['Body'],
                 'comments': comment_list,
-                #'': discussion['CountComments'],
+                'comment_count': discussion['CountComments'],
                 #'': discussion['DateInserted'],
                 #'': discussion['DateUpdated'],
                 #'last_comment_id': discussion['LastCommentID'],
-                #'last_comment_user_id': discussion['LastCommentUserID'],
+                'last_commenter': discussion['LastCommentUserID'],
             }
         }
     )
@@ -75,14 +75,11 @@ for comment in cur.fetchall():
             'pk': comment['CommentID'],
             'model': 'forum.comment',
             'fields': {
-                'title': comment['Name'],
                 'author': comment['InsertUserID'],
                 'body': comment['Body'],
                 #'': comment['DateInserted'],
                 #'': comment['DateUpdated'],
                 #'': comment['DateDeleted'],
-                #'last_comment_id': comment['LastCommentID'],
-                #'last_comment_user_id': comment['LastCommentUserID'],
             }
         }
     )

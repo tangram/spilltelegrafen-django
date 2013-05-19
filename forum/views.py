@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from forms import LoginForm, DiscussionForm, CommentForm
 from django.contrib import messages
 from models import Discussion, Comment
@@ -31,6 +31,10 @@ def index(request):
     }
 
     return render(request, 'discussion_index.html', variables)
+
+def user_logout(request):
+    logout(request)
+    return redirect(index)
 
 def get_discussion(request, discussion_id=None):
     discussion = get_object_or_404(Discussion, id=discussion_id)
