@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 from django.db import models
 from core.models import Content, Comment
@@ -24,7 +24,7 @@ class ForumComment(Comment, Kudos):
 
 class ForumTopic(Content, Kudos):
     '''The initial Content for a forum topic'''
-    topic = models.ManyToManyField(ForumComment, editable=False)
+    comments = models.ManyToManyField(ForumComment, editable=False)
 
     class Meta:
         verbose_name = u'forumemne'

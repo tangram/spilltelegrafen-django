@@ -1,37 +1,44 @@
 <div class="comment">
-	<div class="meta">
-		<a href="{{ comment.author.profile.url }}">
-		    <img class="avatar" src="{{ comment.author.profile.image.url }}" alt="{{ comment.author }}">
-		</a>
-		<a href="{{ comment.author.profile.url }}">{{ comment.author }}</a>
-	    {% if user == comment.author or user.isadmin %}
-	    <span class="datetime">{{ comment.created_time }}</span>
-	    <span class="edit"><a href="/ajax/kommentar/{{ comment.id }}/rediger">Rediger</a></span>
-	    <span class="delete"><a href="/ajax/kommentar/{{ comment.id }}/slett">Slett</a></span>
-	    {% endif %}
-	    {% if user == comment.author %}
-	    <span class="kudos">
-	    	{% if comment.kudos.all %}
-	    	Kudos fra
-	    	{% for kudos in comment.kudos.all %}
-	    	<em>{{ kudos }}</em>{% if not forloop.last %}, {% endif %}
-	    	{% endfor %}
-	    	.
-	    	{% else %}
-	    	0 kudos.
-	    	{% endif %}
-	    </span>
-	    {% else %}
-	    <span class="kudos">
-	    	{% if user in comment.kudos.all %}
-	    	<em>Kudos!</em>
-	    	{% else %}
-	    	<a href="/ajax/kudos/{{ comment.id }}">Gi kudos</a>
-	    	{% endif %}
-	    </span>
-	    {% endif %}
-	</div>
-	<div class="content">
-		{{ comment.body|safe }}
-	</div>
+    <div class="meta">
+        <a href="{{ comment.author.profile.url }}">
+            <img class="avatar" src="{{ comment.author.profile.image.url }}" alt="{{ comment.author }}">
+        </a>
+        <a href="{{ comment.author.profile.url }}">{{ comment.author }}</a>
+
+        {% if user == comment.author or user.isadmin %}
+        <span class="datetime">{{ comment.created_time }}</span>
+        <span class="edit"><a href="/ajax/kommentar/{{ comment.id }}/rediger">Rediger</a></span>
+        <span class="delete"><a href="/ajax/kommentar/{{ comment.id }}/slett">Slett</a></span>
+        {% endif %}
+
+        {% if user == comment.author %}
+        
+        <span class="kudos">
+            {% if comment.kudos.all %}
+            Kudos fra
+            {% for kudos in comment.kudos.all %}
+            <em>{{ kudos }}</em>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+            .
+            {% else %}
+            0 kudos.
+            {% endif %}
+        </span>
+        
+        {% else %}
+        
+        <span class="kudos">
+            {% if user in comment.kudos.all %}
+            <em>Kudos!</em>
+            {% else %}
+            <a href="/ajax/kudos/{{ comment.id }}">Gi kudos</a>
+            {% endif %}
+        </span>
+        
+        {% endif %}
+    </div>
+
+    <div class="content">
+        {{ comment.body|safe }}
+    </div>
 </div>

@@ -1,18 +1,7 @@
-from django import forms
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.models import User
 
 class LoginForm(AuthenticationForm):
-    class Meta:
-        widgets = {
-            'username': forms.TextInput(
-                attrs={
-                    'placeholder': 'Brukernavn'
-                    }
-                ),
-            'password': forms.PasswordInput(
-                attrs={
-                    'placeholder': 'Passord'
-                }
-            ),
-        }
+    def __init__(self, *args, **kwargs):            
+        super(LoginForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['placeholder'] = u'Brukernavn'
+        self.fields['password'].widget.attrs['placeholder'] = u'Passord'

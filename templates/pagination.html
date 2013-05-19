@@ -1,28 +1,28 @@
 <div class="pagination">
-  {% if not content.has_previous %}
-  <span class="previous disabled">&lt;</span>
-  {% else %}
-  <span class="previous"><a href="{{ content.query }}{{ content.previous_page_number }}">&lt;</a></span>
-  {% endif %}
+    {% if not content.has_previous %}
+    <span class="previous disabled">&lt;</span>
+    {% else %}
+    <span class="previous"><a href="{{ content.query }}{{ content.previous_page_number }}">&lt;</a></span>
+    {% endif %}
 
-  {% if content.paginator.show_first %}
-  <span><a href="{{ content.query }}1">1</a></span>
-  <span class="disabled">...</span>
-  {% endif %}
+    {% if content.paginator.show_first %}
+    <span><a href="{{ content.query }}1">1</a></span>
+    <span class="disabled">...</span>
+    {% endif %}
 
-  {% for n in content.paginator.page_numbers %}
-  <span{% if n == content.number %} class="active"{% endif %}><a href="{{ content.query }}{{ n }}">{{ n }}</a></span>
-  {% endfor %}
+    {% for n in content.paginator.page_numbers %}
+    <span{% if n == content.number %} class="active"{% endif %}><a href="{{ content.query }}{{ n }}">{{ n }}</a></span>
+    {% endfor %}
 
-  {% if content.paginator.show_last %}
-  <span class="disabled">...</span>
-  <span><a href="{{ content.query }}{{ content.paginator.num_pages }}">{{ content.paginator.num_pages }}</a></span>
-  {% endif %}
+    {% if content.paginator.show_last %}
+    <span class="disabled">...</span>
+    <span><a href="{{ content.query }}{{ content.paginator.num_pages }}">{{ content.paginator.num_pages }}</a></span>
+    {% endif %}
 
-  {% if not content.has_next %}
-  <span class="next disabled">&gt;</span>
-  {% else %}
-  <span class="next"><a href="{{ content.query }}{{ content.next_page_number }}">&gt;</a></span>
-  {% endif %}
+    {% if not content.has_next %}
+    <span class="next disabled">&gt;</span>
+    {% else %}
+    <span class="next"><a href="{{ content.query }}{{ content.next_page_number }}">&gt;</a></span>
+    {% endif %}
 </div>
 <div class="loader"></div>

@@ -1,20 +1,30 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes import generic
+
+#from imagekit.models import ImageSpecField
+#from imagekit.processors import ResizeToFill
+
+#from autoslug import AutoSlugField
 
 # USERS
-class UserProfile(models.Model):
+class Profile(models.Model):
     '''User profile, connected to a User'''
     user = models.OneToOneField(User)
+    #slug = AutoSlugField(populate_from=lambda instance: instance.user.username, unique=True)
+
     image = models.ImageField(
         u'Brukerbilde', upload_to='brukerbilder')
+    #avatar_image = ImageSpecField([ResizeToFill(50, 50)], image_field='image', options={'quality': 85})
+    #avatar_large_image = ImageSpecField([ResizeToFill(200, 200)], image_field='image', options={'quality': 85})
 
     mail_on_comment = models.BooleanField(
         u'Få mail ved svar på kommentar eller innlegg?', default=True)
 
     class Meta:
-        app_label = u'auth'
         verbose_name = u'brukerprofil'
         verbose_name_plural = u'brukerprofiler'
 
@@ -23,13 +33,13 @@ class UserProfile(models.Model):
 class Content(models.Model):
     '''Abstract base class for content (e.g. page, post)'''
     title = models.CharField(u'Tittel', max_length=255)
+    #slug = AutoSlugField(populate_from='title', unique=True)
     author = models.ForeignKey(
         User, null=True, on_delete=models.SET_NULL, editable=False)
 
     created_time = models.DateTimeField(auto_now_add=True, editable=False)
     edited_time = models.DateTimeField(auto_now=True, editable=False)
-    publish_time = models.DateTimeField(
-        u'Publikasjonstidspunkt', auto_now_add=True)
+    publish_time = models.DateTimeField(auto_now_add=True)
 
     status = models.PositiveSmallIntegerField(default=1, editable=False)  # seems like a good idea
     comments = models.PositiveSmallIntegerField(default=0, editable=False)
@@ -83,40 +93,18 @@ class StaticPage(Content):
         verbose_name_plural = u'faste sider'
 
 
-# MEDIA
-class Image(models.Model):
-    '''Generic class for resizable images'''
-    orig_image = models.ImageField(u'Originalt bilde', upload_to='originaler')
-
-    # there must be some low level file stuff to be handled in an Image class
-
-    class Meta:
-        verbose_name = u'bilde'
-        verbose_name_plural = u'bilder'
-
-
 # FLAGS
 class Flag(models.Model):
-    '''Generic active boolean marking'''
     name = models.CharField(max_length=255)
+    creator = models.ForeignKey(User)
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content = generic.GenericForeignKey()
+    created_time = models.DateTimeField(auto_now_add=True)
 
-    is_global = models.BooleanField(default=False)
-
-    flag_text = models.CharField(max_length=255)
-    flag_description = models.CharField(max_length=255)
-    flagged_message = models.CharField(max_length=255)
-    unflag_text = models.CharField(max_length=255)
-    unflag_description = models.CharField(max_length=255)
-    unflagged_message = models.CharField(max_length=255)
-
-    SUBJECT_CHOICES = (
-        (u'none',  u'Ingen'),
-        (u'self',  u'Kun eget innhold'),
-        (u'other', u'Kun andres innhold'),
-    )
-    subject_restriction = models.CharField(max_length=16, choices=SUBJECT_CHOICES)
+    def __unicode__(self):
+        return u'%s, %s, %s' % (self.creator, self.type, self.content.title)
 
     class Meta:
-        abstract = True
         verbose_name = u'flagg'
         verbose_name_plural = u'flagg'

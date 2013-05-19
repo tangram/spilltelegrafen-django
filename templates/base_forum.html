@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-{{ page.title }}
+{{ pagetitle }}
 {% endblock %}
 
 {% block meta %}
@@ -14,14 +14,20 @@
 {% endblock %}
 
 {% block content %}
+
 <div class="right">{% include "pagination.html" %}</div>
-<h2>{{ page.title }}</h2>
+
+<h2>{{ pagetitle }}</h2>
+
 {% for comment in page.content %}
 {% include "comment.html" %}
 {% endfor %}
 {% include "comment_form.html" %}
-<a class="back" href="{% url forum %}">Alle diskusjoner</a>
+
+<a class="back" href="{% url index %}">Alle diskusjoner</a>
+
 <div class="right">{% include "pagination.html" %}</div>
+
 {% endblock %}
 
 {% block footer %}
