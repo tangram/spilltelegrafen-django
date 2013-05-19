@@ -32,13 +32,12 @@ def index(request):
 
     return render(request, 'discussion_index.html', variables)
 
-def get_discussion(request, id=None):
-    if id:
-        discussion = get_object_or_404(Discussion, id=id)
+def get_discussion(request, discussion_id=None):
+    discussion = get_object_or_404(Discussion, id=discussion_id)
 
     variables = {
         'pagetitle': discussion.title,
-        'discussion': discussion,
+        'discussion': get_object_or_404(Discussion, id=discussion_id),
         'form': CommentForm(),
     }
 
@@ -49,6 +48,8 @@ def post_discussion(request):
         form = DiscussionForm(request.POST)
         if form.is_valid():
             discussion = form.save()
+            discussion.author = request.user
+            discussion.save()
             return redirect(discussion)
     else:
         form = DiscussionForm()
@@ -60,28 +61,22 @@ def post_discussion(request):
 
     return render(request, 'discussion_form.html', variables)
 
-def ajax_get_comment(request, id=None):
-    if id:
-        comment = get_object_or_404(Comment, id=id)
-
+def ajax_get_comment(request, comment_id=None):
     variables = {
-        'comment': comment,
+        'comment': get_object_or_404(Comment, id=comment_id),
     }
-
     return render(request, 'comment.html', variables) 
 
-def ajax_post_comment(request):
+def ajax_post_comment(request, discussion_id=None):
+    discussion = get_object_or_404(Discussion, id=discussion_id)
+
     if request.POST:
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save()
-            #return redirect(comment)
-    else:
-        form = CommentForm()
-
-    variables = {
-        'comment': comment,
-        'form': form,
-    }
-
-    return render(request, 'post_comment.html', variables) 
+            comment.author = request.user
+            comment.save()
+            discussion.comments.add(comment)
+            discussion.comment_count += 1
+            discussion.save()
+            return render(request, 'comment.html', { 'comment': comment })

@@ -37,8 +37,7 @@ class Content(models.Model):
     '''Abstract base class for content (e.g. page, post)'''
     title = models.CharField(u'Tittel', max_length=255)
     #slug = AutoSlugField(populate_from='title', unique=True)
-    author = models.ForeignKey(
-        User, null=True, on_delete=models.SET_NULL, editable=False)
+    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, editable=False)
 
     created_time = models.DateTimeField(auto_now_add=True, editable=False)
     edited_time = models.DateTimeField(auto_now=True, editable=False)

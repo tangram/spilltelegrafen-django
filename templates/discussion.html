@@ -18,14 +18,14 @@
 <div class="right">{% include "pagination.html" %}</div>
 
 <h2>{{ pagetitle }}</h2>
-
-{% with discussion as comment %}
-{% include "comment.html" %}    
-{% endwith %}
-
-{% for comment in comments %}
-{% include "comment.html" %}
-{% endfor %}
+<div id="discussion">
+	{% with discussion as comment %}
+	{% include "comment.html" %}    
+	{% endwith %}
+	{% for comment in discussion.comments.all %}
+	{% include "comment.html" %}
+	{% endfor %}
+</div>
 
 <div class="right">{% include "pagination.html" %}</div>
 <p><a class="button back" href="{% url index %}">Alle diskusjoner</a></p>

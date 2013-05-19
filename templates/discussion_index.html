@@ -15,14 +15,19 @@
 
 {% block content %}
 
+<div class="right">{% include "pagination.html" %}</div>
 <a class="button" href="{% url post_discussion %}">Start en ny diskusjon</a>
-<ul class="discussions">
+
+<ul id="discussions">
     {% for discussion in discussions %}
-    <li>
+    <li class="discussion{% if discussion.author == user %} own{% endif %}">
         {% include 'discussion_header.html' %}
     </li>
     {% endfor %}
 </ul>
+
+<div class="right">{% include "pagination.html" %}</div>
+<div class="clear"></div>
 
 {% endblock %}
 
