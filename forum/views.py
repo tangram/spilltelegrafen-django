@@ -78,5 +78,6 @@ def ajax_post_comment(request, discussion_id=None):
             comment.save()
             discussion.comments.add(comment)
             discussion.comment_count += 1
+            discussion.last_commenter = request.user
             discussion.save()
             return render(request, 'comment.html', { 'comment': comment })

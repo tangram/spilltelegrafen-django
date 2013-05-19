@@ -1,3 +1,4 @@
+{% load textiler %}
 <div class="{{ comment.classname }}{% if comment.author == user %} own{% endif %}">
     <div class="meta">
         <a href="{{ comment.author.profile.url }}">
@@ -19,9 +20,6 @@
             {% for kudos in comment.kudos.all %}
             <em>{{ kudos }}</em>{% if not forloop.last %}, {% endif %}
             {% endfor %}
-            .
-            {% else %}
-            0 kudos.
             {% endif %}
         </span>
         
@@ -39,6 +37,6 @@
     </div>
 
     <div class="content clear">
-        {{ comment.body|safe }}
+        {{ comment.body|textile }}
     </div>
 </div>

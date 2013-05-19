@@ -9,7 +9,7 @@
     <span class="published">{{ discussion.publish_time }}</span>
     {% if discussion.comment_count > 0 %}
     <span class="comment-count">{{ discussion.comment_count }} kommentarer</span>
-    <span class="last-commenter">Siste av {{ discussion.last_commenter }}</span>
+    <span class="last-commenter">Siste av <a href="{{ discussion.last_commenter.profile.get_absolute_url }}">{{ discussion.last_commenter }}</a></span>
     <span class="last-update">{{ discussion.last_updated }}</span>
     {% endif %}
 </div>

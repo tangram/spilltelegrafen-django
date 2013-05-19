@@ -27,8 +27,9 @@
 	{% endfor %}
 </div>
 
+<a class="button back left" href="{% url index %}">Alle diskusjoner</a>
 <div class="right">{% include "pagination.html" %}</div>
-<p><a class="button back" href="{% url index %}">Alle diskusjoner</a></p>
+<div class="clear"></div>
 
 {% include "comment_form.html" %}
 

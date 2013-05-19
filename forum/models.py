@@ -26,7 +26,7 @@ class Comment(Kudos):
     body = models.TextField(u'Kommentar')
 
     def get_absolute_url(self):
-        return '%s/kommentar/%s' % (self.discussion.get_absolute_url(), self.id)
+        return '/kommentar/%s' % self.id
 
     def __unicode__(self):
         return u'%s...' % (self.body[0:50])
