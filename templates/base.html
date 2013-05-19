@@ -7,15 +7,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block meta %}{% endblock %}
 
-        <link rel="stylesheet" href="static/css/normalize.min.css">
-        <link rel="stylesheet" href="static/css/style.css">
+        <link rel="stylesheet" href="/static/css/normalize.min.css">
+        <link rel="stylesheet" href="/static/css/style.css">
         {% block styles %}{% endblock %}
     </head>
     <body>
         <div id="wrapper">
             <header class="row">
                 <div class="eight col">
-                    <a href="/"><img id="logo" class="left" src="static/img/logo.png"></a>
+                    <a href="/"><img id="logo" class="left" src="/static/img/logo.png"></a>
                     <a href="/"><h1 id="sitename">Spilltelegrafen forum</h1></a>
                 </div>
                 <div class="four col">
@@ -43,7 +43,7 @@
                 {% else %}
                 <h2>Dette er et lukket forum.</h2>
                 <p>Medlemmer kan logge inn under.</p>
-                <form class="login" action="{% url index %}" method="post">{% csrf_token %}
+                <form id="login" action="{% url index %}" method="post">{% csrf_token %}
                     {% for field in login_form %}
                     {{ field }}
                     {% for error in field.errors %}
@@ -66,9 +66,9 @@
         </div>
 
         <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
-        <script>window.jQuery || document.write('<script src="static/js/jquery-1.8.1.min.js"><\/script>')</script>
+        <script>window.jQuery || document.write('<script src="/static/js/jquery-1.8.1.min.js"><\/script>')</script>
 
-        <script src="static/js/script.js"></script>
+        <script src="/static/js/script.js"></script>
         {% block scripts %}{% endblock %}
 
         <!--<script>

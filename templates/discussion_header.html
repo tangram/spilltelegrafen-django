@@ -1,0 +1,12 @@
+<a href="{{ discussion.author.profile.get_absolute_url }}">
+    <img class="avatar" src="{{ discussion.author.profile.image.url }}" alt="{{ discussion.author }}">
+</a>
+<div>
+    <h2><a href="{{ discussion.get_absolute_url }}">{{ discussion.title }}</a></h2>
+</div>
+<div class="meta">
+    <span class="discussion-author">Startet av <a href="{{ discussion.author.profile.get_absolute_url }}">{{ discussion.author }}</a></span>
+    <span class="comment-count">{{ discussion.comment_count }} kommentarer</span>
+    <span class="last-commenter">Siste av {{ discussion.last_commenter }}</span>
+    <span class="last-update">{{ discussion.last_updated }}</span>
+</div>

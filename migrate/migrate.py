@@ -15,7 +15,7 @@ cur = db.cursor(MySQLdb.cursors.DictCursor)
 # result lists
 users = []
 profiles = []
-topics = []
+discussions = []
 comments = []
 kudos = []
 
@@ -43,27 +43,27 @@ for user in cur.fetchall():
     )
 
 cur.execute('SELECT * FROM GDN_Discussion')
-for topic in cur.fetchall():
+for discussion in cur.fetchall():
 
-    topic_comments = []
-    cur.execute('SELECT CommentID FROM GDN_Comment WHERE DiscussionID = %s', topic['DiscussionID'])
+    comment_list = []
+    cur.execute('SELECT CommentID FROM GDN_Comment WHERE DiscussionID = %s', discussion['DiscussionID'])
     for comment in cur.fetchall():
-        topic_comments.append(comment['CommentID'])
+        comment_list.append(comment['CommentID'])
 
-    topics.append(
+    discussions.append(
         {
-            'pk': topic['DiscussionID'],
-            'model': 'forum.forumtopic',
+            'pk': discussion['DiscussionID'],
+            'model': 'forum.discussion',
             'fields': {
-                'title': topic['Name'],
-                'author': topic['InsertUserID'],
-                'body': topic['Body'],
-                'comments': topic_comments,
-                #'': topic['CountComments'],
-                #'': topic['DateInserted'],
-                #'': topic['DateUpdated'],
-                #'last_comment_id': topic['LastCommentID'],
-                #'last_comment_user_id': topic['LastCommentUserID'],
+                'title': discussion['Name'],
+                'author': discussion['InsertUserID'],
+                'body': discussion['Body'],
+                'comments': comment_list,
+                #'': discussion['CountComments'],
+                #'': discussion['DateInserted'],
+                #'': discussion['DateUpdated'],
+                #'last_comment_id': discussion['LastCommentID'],
+                #'last_comment_user_id': discussion['LastCommentUserID'],
             }
         }
     )
@@ -73,7 +73,7 @@ for comment in cur.fetchall():
     comments.append(
         {
             'pk': comment['CommentID'],
-            'model': 'forum.forumcomment',
+            'model': 'forum.comment',
             'fields': {
                 'title': comment['Name'],
                 'author': comment['InsertUserID'],
@@ -110,8 +110,8 @@ with open('users.json', 'w') as f:
 with open('profiles.json', 'w') as f:
     json.dump(profiles, f, indent=2)
 
-with open('topics.json', 'w') as f:
-    json.dump(topics, f, indent=2)
+with open('discussions.json', 'w') as f:
+    json.dump(discussions, f, indent=2)
 
 with open('comments.json', 'w') as f:
     json.dump(comments, f, indent=2)

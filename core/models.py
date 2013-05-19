@@ -24,6 +24,9 @@ class Profile(models.Model):
     mail_on_comment = models.BooleanField(
         u'Få mail ved svar på kommentar eller innlegg?', default=True)
 
+    def get_absolute_url(self):
+        return '/profil/%s' % self.user
+
     class Meta:
         verbose_name = u'brukerprofil'
         verbose_name_plural = u'brukerprofiler'
@@ -42,8 +45,8 @@ class Content(models.Model):
     publish_time = models.DateTimeField(auto_now_add=True)
 
     status = models.PositiveSmallIntegerField(default=1, editable=False)  # seems like a good idea
-    comments = models.PositiveSmallIntegerField(default=0, editable=False)
-    views = models.PositiveSmallIntegerField(default=0, editable=False)
+    comment_count = models.PositiveSmallIntegerField(default=0, editable=False)
+    view_count = models.PositiveSmallIntegerField(default=0, editable=False)
 
     body = models.TextField(u'Brødtekst')
 
@@ -51,25 +54,6 @@ class Content(models.Model):
 
     def __unicode__(self):
         return u'%s' % (self.title)
-
-    class Meta:
-        abstract = True
-
-
-class Comment(models.Model):
-    '''Abstract base class for comments.'''
-    author = models.ForeignKey(
-        User, null=True, on_delete=models.SET_NULL, editable=False)
-
-    created_time = models.DateTimeField(
-        auto_now_add=True, editable=False)
-    edited_time = models.DateTimeField(
-        auto_now=True, editable=False)
-
-    body = models.TextField(u'Kommentar')
-
-    def __unicode__(self):
-        return u'%s...' % (self.body[0:50])
 
     class Meta:
         abstract = True
@@ -103,7 +87,7 @@ class Flag(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
-        return u'%s, %s, %s' % (self.creator, self.type, self.content.title)
+        return u'%s, %s, %s' % (self.creator, self.name, self.content.title)
 
     class Meta:
         verbose_name = u'flagg'

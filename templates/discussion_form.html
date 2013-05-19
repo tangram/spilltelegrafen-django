@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ pagetitle }}
+{% endblock %}
+
+{% block meta %}
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+
+<h2>Start en ny diskusjon</h2>
+
+<form action="{% url post_discussion %}" method="post">{% csrf_token %}
+
+    {% for field in form %}
+    {{ field }}
+    {% for error in field.errors %}
+    <p class="error">{{ error|escape }}</p>
+    {% endfor %}
+    {% endfor %}
+
+    <input class="button tt" type="button" value="Last opp filer" title="" />
+
+    <div class="right">
+        <span class="note tt" data-title="<strong>*fet*</strong><br><em>_kursiv_</em><br>h1. Overskrift<br>bq. Blokksitat<br><br>Blank linje skiller avsnitt<br><br>URL blir konvertert til lenke, eller<br>&quot;lenketekst&quot;:http://adresse<br><br>URL for bilde eller YouTube-video blir automatisk bygget inn">Formateringstips</span> 
+        
+        <input class="button tt" type="submit" value="Lagre utkast" title="Shift+Enter" />
+
+        <input class="button tt" type="submit" value="Post diskusjon" title="Ctrl+Enter / ⌘+Enter" />
+    </div>
+
+</form>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

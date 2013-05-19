@@ -52,63 +52,12 @@
     }
 }
 
-/* UTILITY */
-
-.left {
-    float: left;
-}
-.right {
-    float: right;
-}
-.left.margin {
-    margin: 0 1em 1em 0;
-}
-.right.margin {
-    margin: 0 0 1em 1em;
-}
-.ir {
-    display: block;
-    border: 0;
-    text-indent: -999em;
-    overflow: hidden;
-    background-color: transparent;
-    background-repeat: no-repeat;
-    text-align: left;
-    direction: ltr;
-    *line-height: 0;
-}
-.ir br {
-    display: none;
-}
-.hidden {
-    display: none !important;
-    visibility: hidden;
-}
-.visuallyhidden {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-}
-.visuallyhidden.focusable:active,
-.visuallyhidden.focusable:focus {
-    clip: auto;
-    height: auto;
-    margin: 0;
-    overflow: visible;
-    position: static;
-    width: auto;
-}
-.invisible {
-    visibility: hidden;
-}
-
 /* STYLES */
 
+@import url(http://weloveiconfonts.com/api/?family=entypo);
+[class*="entypo-"] {
+  font-family: 'entypo', sans-serif;
+}
 body {
     font-family: Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -166,27 +115,39 @@ a:hover {
     color: #1abc9c;
     text-decoration: none;
 }
-
-@import url(http://weloveiconfonts.com/api/?family=entypo);
-
-[class*="entypo-"] {
-  font-family: 'entypo', sans-serif;
-}
-
-form input {
+form input,
+textarea {
     display: block;
-    border: none;
+    border: 1px solid #ccc;
     padding: 5px;
-    margin: 0 0 .5em
+    margin: 0 0 .5em;
+    box-sizing: border-box;
+}
+input[type="text"],
+textarea {
+    width: 100%;
+}
+form label {
+    display: block;
+    margin: .5em 0;
+}
+#id_body {
+    height: 7em;
 }
 .button {
     color: #fff;
+    border: none;
     padding: 5px 2em;
     background: #e67e22;
     font-weight: bold;
+    box-sizing: border-box;
+    display: inline-block;
 }
 .button:hover {
     background: #d35400;
+}
+a.button:hover {
+    color: #fff;
 }
 #wrapper {
     width: 100%;
@@ -214,12 +175,17 @@ footer {
     display: inline-block;
     color: #fff;
 }
+#login input {
+    width: 15em;
+    max-width: 100%;
+}
 .search-form {
     float: right;
 }
 .search-form input {
     display: inline-block;
     margin: 0;
+    border: none;
 }
 .search-submit {
     font-size: 2.5em;
@@ -257,10 +223,49 @@ footer {
 .github {
     color: #fff;
 }
-.login input[type="text"],
-.login input[type="password"] {
-    border: 1px solid #ccc;
+
+/* UTILITY */
+
+.left {
+    float: left;
 }
+.right {
+    float: right;
+}
+.left.margin {
+    margin: 0 1em 1em 0;
+}
+.right.margin {
+    margin: 0 0 1em 1em;
+}
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}
+.invisible {
+    visibility: hidden;
+}
+
+/* RESPONSIVENESS */
 
 @media (max-width: 640px) {
 
