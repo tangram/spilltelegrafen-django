@@ -235,10 +235,12 @@ footer a {
 }
 
 /* CONTENT */
-
+img {
+    max-width: 100%;
+}
 #discussions,
 #discussion {
-    margin: 1em 0;
+    margin: .5em 0 1em;
     padding: 0;
 }
 li.discussion {
@@ -249,16 +251,25 @@ li.discussion {
 }
 .discussion,
 .comment {
+    padding: .5em 0;
+}
+#discussion .discussion,
+#discussion .comment {
     padding: .5em;
+    margin: .5em 0 0;
 }
 .meta {
     font-size: .8em;
 }
-#discussion .meta {
-    margin: 0 0 1em;
-}
 .meta span + span {
     margin: 0 0 0 1em;
+}
+.meta em {
+    font-style: normal;
+    color: #27ae60;
+}
+#discussion .meta {
+    margin: 0 0 .5em;
 }
 .own {
     background: #ecf0f1;

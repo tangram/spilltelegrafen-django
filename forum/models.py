@@ -7,7 +7,6 @@ from django.contrib.auth.models import User
 class Kudos(models.Model):
     '''Kudos class, inherit to add kudos'''
     kudos = models.ManyToManyField(User, editable=False, related_name='%(class)s_kudos')
-    given = models.DateTimeField(auto_now_add=True, editable=False)
 
     class Meta:
         abstract = True
@@ -20,8 +19,10 @@ class Comment(Kudos):
     author = models.ForeignKey(User, null=True, editable=False)
 
     created_time = models.DateTimeField(auto_now_add=True, editable=False)
-    published_time = models.DateTimeField(auto_now_add=True, editable=False)
+    published_time = models.DateTimeField(auto_now_add=True, null=True, editable=False)
     edited_time = models.DateTimeField(auto_now=True, null=True, editable=False)
+
+    status = models.PositiveSmallIntegerField(default=1, editable=False)
 
     body = models.TextField(u'Kommentar')
 

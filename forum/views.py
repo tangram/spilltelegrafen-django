@@ -26,7 +26,7 @@ def index(request):
                 messages.error(request, u'Ugyldig brukernavn eller passord')
 
     else:
-        discussions = Discussion.objects.all()
+        discussions = Discussion.objects.order_by('-last_commented')
         form = None
 
     variables = {

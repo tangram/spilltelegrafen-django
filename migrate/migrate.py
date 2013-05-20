@@ -3,6 +3,7 @@
 
 import MySQLdb
 import json
+from datetime import datetime
 
 db = MySQLdb.connect(
     host='127.0.0.1',
@@ -35,7 +36,7 @@ for user in cur.fetchall():
                 'username': user['Name'],
                 'password': user['Password'][1:],  # django doesn't use first $
                 'email': user['Email'],
-                'date_joined': str(user['DateInserted']),
+                'date_joined': str(user['DateInserted'] or datetime.now()),
                 'is_superuser': user['Admin'] == 1,
                 'is_staff': user['Admin'] == 1,
             }
@@ -46,8 +47,9 @@ for user in cur.fetchall():
             'pk': user['UserID'],
             'model': 'core.profile',
             'fields': {
+                'user': user['UserID'],
                 'image': user['Photo'],
-                'last_seen': str(user['DateLastActive']),
+                'last_seen': str(user['DateLastActive'] or datetime.now()),
                 'discussion_count': user['CountDiscussions'],
                 'comment_count': user['CountComments'],
             }
@@ -67,26 +69,26 @@ for discussion in cur.fetchall():
     for k in cur.fetchall():
         kudos.append(k['UserID'])
 
-    if not discussion['Closed']:
-        discussions.append(
-            {
-                'pk': discussion['DiscussionID'],
-                'model': 'forum.discussion',
-                'fields': {
-                    'title': discussion['Name'],
-                    'author': discussion['InsertUserID'],
-                    'body': discussion['Body'],
-                    'comments': comment_list,
-                    'comment_count': discussion['CountComments'],
-                    'created_time': str(discussion['DateInserted']),
-                    'edited_time': str(discussion['DateUpdated']),
-                    'last_comment': discussion['LastCommentID'],
-                    'last_commenter': discussion['LastCommentUserID'],
-                    'last_commented': str(discussion['DateLastComment']),
-                    'kudos': kudos,
-                }
+    discussions.append(
+        {
+            'pk': discussion['DiscussionID'],
+            'model': 'forum.discussion',
+            'fields': {
+                'title': discussion['Name'],
+                'author': discussion['InsertUserID'],
+                'body': discussion['Body'],
+                'comments': comment_list,
+                'comment_count': discussion['CountComments'],
+                'created_time': str(discussion['DateInserted'] or datetime.now()),
+                'edited_time': str(discussion['DateUpdated'] or datetime.now()),
+                'last_comment': discussion['LastCommentID'] if comment_list else None,
+                'last_commenter': discussion['LastCommentUserID'],
+                'last_commented': str(discussion['DateLastComment'] or datetime.now()),
+                'kudos': kudos,
+                'status': 0 if discussion['Closed'] else 1
             }
-        )
+        }
+    )
 
 cur.execute('SELECT * FROM GDN_Comment')
 for comment in cur.fetchall():
@@ -96,20 +98,20 @@ for comment in cur.fetchall():
     for k in cur.fetchall():
         kudos.append(k['UserID'])
 
-    if not comment['DateDeleted']:
-        comments.append(
-            {
-                'pk': comment['CommentID'],
-                'model': 'forum.comment',
-                'fields': {
-                    'author': comment['InsertUserID'],
-                    'body': comment['Body'],
-                    'created_time': str(comment['DateInserted']),
-                    'edited_time': str(comment['DateUpdated']),
-                    'kudos': kudos,
-                }
+    comments.append(
+        {
+            'pk': comment['CommentID'],
+            'model': 'forum.comment',
+            'fields': {
+                'author': comment['InsertUserID'],
+                'body': comment['Body'],
+                'created_time': str(comment['DateInserted'] or datetime.now()),
+                'edited_time': str(comment['DateUpdated'] or datetime.now()),
+                'kudos': kudos,
+                'status': 0 if comment['DateDeleted'] else 1
             }
-        )
+        }
+    )
 
 with open('users.json', 'w') as f:
     json.dump(users, f, indent=2)

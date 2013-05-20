@@ -28,6 +28,16 @@ class Profile(models.Model):
     discussion_count = models.PositiveSmallIntegerField(default=0, editable=False)
     comment_count = models.PositiveSmallIntegerField(default=0, editable=False)
 
+    def avatar(self):
+        # if self.image:
+        #     src = self.image.url
+        #     path, filename = src.rsplit('/', 1)
+        #     filename = 'n' + filename
+        #     src = '/'.join([path, filename])
+        # else:
+        src = '/static/img/avatar.png'
+        return src
+
     def get_absolute_url(self):
         return '/profil/%s' % self.user
 
@@ -44,10 +54,10 @@ class Content(models.Model):
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, editable=False)
 
     created_time = models.DateTimeField(auto_now_add=True, editable=False)
-    publish_time = models.DateTimeField(auto_now_add=True)
-    edited_time = models.DateTimeField(auto_now=True, editable=False)
+    publish_time = models.DateTimeField(auto_now_add=True, null=True, editable=False)
+    edited_time = models.DateTimeField(auto_now=True, null=True, editable=False)
 
-    status = models.PositiveSmallIntegerField(default=1, editable=False)  # seems like a good idea
+    status = models.PositiveSmallIntegerField(default=1, editable=False)
     comment_count = models.PositiveSmallIntegerField(default=0, editable=False)
     view_count = models.PositiveSmallIntegerField(default=0, editable=False)
 

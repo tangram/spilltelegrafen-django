@@ -1,15 +1,15 @@
 <a href="{{ discussion.author.profile.get_absolute_url }}">
-    <img class="avatar left margin" src="{{ discussion.author.profile.image.url }}" alt="{{ discussion.author }}">
+    <img class="avatar left margin" src="{{ discussion.author.profile.avatar }}" alt="{{ discussion.author }}">
 </a>
 <div>
     <h2><a href="{{ discussion.get_absolute_url }}">{{ discussion.title }}</a></h2>
 </div>
 <div class="meta">
-    <span class="discussion-author">Startet av <a href="{{ discussion.author.profile.get_absolute_url }}">{{ discussion.author }}</a></span>
-    <span class="published">{{ discussion.publish_time }}</span>
+    <span class="discussion-author">Startet av <strong><a href="{{ discussion.author.profile.get_absolute_url }}">{{ discussion.author }}</a></strong></span>
+    <span class="published">{{ discussion.created_time }}</span>
     {% if discussion.comment_count > 0 %}
     <span class="comment-count">{{ discussion.comment_count }} kommentarer</span>
-    <span class="last-commenter">Siste av <a href="{{ discussion.last_commenter.profile.get_absolute_url }}">{{ discussion.last_commenter }}</a></span>
+    <span class="last-commenter">Siste av <strong><a href="{{ discussion.last_commenter.profile.get_absolute_url }}">{{ discussion.last_commenter }}</a></strong></span>
     <span class="last-update">{{ discussion.last_updated }}</span>
     {% endif %}
 </div>

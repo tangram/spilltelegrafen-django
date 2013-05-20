@@ -61,9 +61,9 @@
                     {% if user.is_authenticated %}
                     <a class="button right" href="{% url post_discussion %}">Start en ny diskusjon</a>
                     <div class="meta">
-                        <a href="{{ user.profile.get_absolute_url }}"><img class="left margin" src="{{ user.profile.image.url }}"></a>
+                        <a href="{{ user.profile.get_absolute_url }}"><img class="left margin" src="{{ user.profile.avatar }}"></a>
                         <a href="{{ user.profile.get_absolute_url }}">{{ user }}</a>
-                        <a href="{% url logout %}">Logg ut</a>
+                        <a class="right" href="{% url logout %}">Logg ut</a>
                     </div>
                     {% endif %}
                 </div>
