@@ -24,6 +24,10 @@ class Profile(models.Model):
     mail_on_comment = models.BooleanField(
         u'Få mail ved svar på kommentar eller innlegg?', default=True)
 
+    last_seen = models.DateTimeField(auto_now=True, editable=False)
+    discussion_count = models.PositiveSmallIntegerField(default=0, editable=False)
+    comment_count = models.PositiveSmallIntegerField(default=0, editable=False)
+
     def get_absolute_url(self):
         return '/profil/%s' % self.user
 
@@ -40,8 +44,8 @@ class Content(models.Model):
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, editable=False)
 
     created_time = models.DateTimeField(auto_now_add=True, editable=False)
-    edited_time = models.DateTimeField(auto_now=True, editable=False)
     publish_time = models.DateTimeField(auto_now_add=True)
+    edited_time = models.DateTimeField(auto_now=True, editable=False)
 
     status = models.PositiveSmallIntegerField(default=1, editable=False)  # seems like a good idea
     comment_count = models.PositiveSmallIntegerField(default=0, editable=False)

@@ -15,7 +15,10 @@
 
 {% block content %}
 
-<div class="right clear">{% include "pagination.html" %}</div>
+<div class="right">{% include "pagination.html" %}</div>
+<a class="button" href="{% url index %}">Alle diskusjoner</a>
+<a class="button" href="">Mine diskusjoner</a>
+<a class="button" href="">Mine utkast</a>
 
 <ul id="discussions">
     {% for discussion in discussions %}

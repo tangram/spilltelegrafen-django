@@ -16,8 +16,8 @@
         <div id="wrapper">
             <header class="row">
                 <div class="nine col">
-                    <a href="/"><img id="logo" class="left" src="/static/img/logo.png"></a>
-                    <a href="/"><h1 id="sitename">Spilltelegrafen forum</h1></a>
+                    <a href="{% url index %}"><img id="logo" class="left" src="/static/img/logo.png"></a>
+                    <a href="{% url index %}"><h1 id="sitename">Spilltelegrafen forum</h1></a>
                 </div>
                 <div class="three col">
                     <form id="search-form" action="{% url index %}" method="get">
@@ -27,18 +27,20 @@
                 </div>
                 {% block header %}{% endblock %}
             </header>
-            
+
             <section id="content" class="row">
                 <div id="main" class="nine col">
                     <div id="messages">
-                      {% if messages %}{% for message in messages %}
+                      {% if messages %}
+                      {% for message in messages %}
                       <div class="message {{ message.tags }}" onclick="$(this).closest('.message').remove()" onload="setTimeout('$(this).remove()', 30000)">
                         <span class="close">&times;</span>
                         <p>{{ message }}</p>
                       </div>
-                      {% endfor %}{% endif %}
+                      {% endfor %}
+                      {% endif %}
                     </div>
-                    
+
                     {% if user.is_authenticated %}
                     {% block content %}{% endblock %}
                     {% else %}
@@ -55,7 +57,7 @@
                     </form>
                     {% endif %}
                 </div>
-                <div id="sidebar" class="three col rtl">
+                <div id="sidebar" class="three col">
                     {% if user.is_authenticated %}
                     <a class="button right" href="{% url post_discussion %}">Start en ny diskusjon</a>
                     <div class="meta">

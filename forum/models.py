@@ -21,7 +21,7 @@ class Comment(Kudos):
 
     created_time = models.DateTimeField(auto_now_add=True, editable=False)
     published_time = models.DateTimeField(auto_now_add=True, editable=False)
-    edited_time = models.DateTimeField(auto_now=True, editable=False)
+    edited_time = models.DateTimeField(auto_now=True, null=True, editable=False)
 
     body = models.TextField(u'Kommentar')
 
@@ -42,8 +42,9 @@ class Comment(Kudos):
 class Discussion(Content, Kudos):
     '''The initial Content for a discussion'''
     comments = models.ManyToManyField(Comment, editable=False)
+    last_comment = models.ForeignKey(Comment, null=True, editable=False, related_name='last_comment')
     last_commenter = models.ForeignKey(User, null=True, editable=False, related_name='last_commenter')
-    last_update = models.DateTimeField(auto_now=True, editable=False)
+    last_commented = models.DateTimeField(auto_now=True, null=True, editable=False)
 
     def get_absolute_url(self):
         return '/diskusjon/%s' % self.id

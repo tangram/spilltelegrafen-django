@@ -233,6 +233,9 @@ footer a {
     font-size: 1.5em;
     line-height: 1em;
 }
+
+/* CONTENT */
+
 #discussions,
 #discussion {
     margin: 1em 0;
@@ -264,6 +267,8 @@ form .right .button {
     margin: 0 0 0 .5em;
 }
 
+/* SIDEBAR */
+
 #sidebar .button {
     text-align: center;
     width: 100%;
@@ -274,6 +279,7 @@ form .right .button {
 }
 
 /* UTILITY */
+
 .table {
     display: table;
 }

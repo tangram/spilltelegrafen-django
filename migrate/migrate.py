@@ -18,6 +18,9 @@ profiles = []
 discussions = []
 comments = []
 
+draft = []
+media = []
+
 cur.execute('SELECT * FROM GDN_User')
 for user in cur.fetchall():
     users.append(
@@ -40,9 +43,9 @@ for user in cur.fetchall():
             'model': 'core.profile',
             'fields': {
                 'image': user['Photo'],
-                #'last_seen': user['DateLastActive'],
-                #'discussion_count': user['CountDiscussions'],
-                #'comment_count': user['CountComments'],
+                'last_seen': user['DateLastActive'],
+                'discussion_count': user['CountDiscussions'],
+                'comment_count': user['CountComments'],
             }
         }
     )
@@ -71,10 +74,11 @@ for discussion in cur.fetchall():
                     'body': discussion['Body'],
                     'comments': comment_list,
                     'comment_count': discussion['CountComments'],
-                    #'': discussion['DateInserted'],
-                    #'': discussion['DateUpdated'],
-                    #'last_comment_id': discussion['LastCommentID'],
+                    'created_time': discussion['DateInserted'],
+                    'edited_time': discussion['DateUpdated'],
+                    'last_comment': discussion['LastCommentID'],
                     'last_commenter': discussion['LastCommentUserID'],
+                    'last_commented': discussion['DateLastComment'],
                     'kudos': kudos,
                 }
             }
@@ -96,9 +100,8 @@ for comment in cur.fetchall():
                 'fields': {
                     'author': comment['InsertUserID'],
                     'body': comment['Body'],
-                    #'': comment['DateInserted'],
-                    #'': comment['DateUpdated'],
-                    #'': comment['DateDeleted'],
+                    'created_time': comment['DateInserted'],
+                    'edited_time': comment['DateUpdated'],
                     'kudos': kudos,
                 }
             }
