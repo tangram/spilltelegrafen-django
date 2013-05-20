@@ -114,12 +114,6 @@ TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), '..', 'templates'),
 )
 
-IMPERAVI_CUSTOM_SETTINGS = {
-    'lang': 'no-NB',
-    'buttons': ['html', '|', 'formatting', '|', 'bold', 'italic', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|', 'image', 'video', 'link'],
-    'formattingTags': ['p', 'blockquote', 'h3', 'h4'],
-}
-
 PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
@@ -138,13 +132,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'django_admin_bootstrapped',
+    'suit',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-
-    'imperavi',
 
     'core',
     'magazine',

@@ -8,7 +8,7 @@
     <span class="discussion-author">Startet av <strong><a href="{{ discussion.author.profile.get_absolute_url }}">{{ discussion.author }}</a></strong></span>
     <span class="published">{{ discussion.created_time }}</span>
     {% if discussion.comment_count > 0 %}
-    <span class="comment-count">{{ discussion.comment_count }} kommentarer</span>
+    <span class="comment-count"><strong>{{ discussion.comment_count }}</strong> kommentarer</span>
     <span class="last-commenter">Siste av <strong><a href="{{ discussion.last_commenter.profile.get_absolute_url }}">{{ discussion.last_commenter }}</a></strong></span>
     <span class="last-update">{{ discussion.last_updated }}</span>
     {% endif %}

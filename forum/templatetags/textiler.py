@@ -17,11 +17,9 @@ def textile(value):
             raise template.TemplateSyntaxError("Error in 'textile' filter: The Python textile library isn't installed.")
         return force_unicode(value)
     else:
-        textiled = sanitizer.sanitize(
-            textile.textile(
+        textiled = textile.textile(
                 value, head_offset=2, auto_link=True, html_type='html'
-            ), 'html'
-        )
+            )
 
         try:
             soup = BeautifulSoup(textiled)
@@ -29,7 +27,7 @@ def textile(value):
             return
 
         blacklist = [
-            'script', 'style', 'form', 'input', 'textarea', 'button', 'font',
+            'form', 'input', 'textarea', 'button', 'font',
             'table', 'tbody', 'thead', 'tr', 'td',
         ]
 

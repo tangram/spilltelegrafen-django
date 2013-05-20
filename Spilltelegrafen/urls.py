@@ -6,7 +6,6 @@ admin.autodiscover()
 urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^imperavi/', include('imperavi.urls')),
 
     url(r'^$', 'forum.views.index', name='index'),
     url(r'^logg-ut$', 'forum.views.user_logout', name='logout'),

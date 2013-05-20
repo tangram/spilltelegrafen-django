@@ -94,13 +94,15 @@ h6 {
 }
 p,
 ul,
-ol {
+ol,
+blockquote {
     line-height: 1.25em;
     margin: 0 0 1.25em;
 }
 p:last-child,
 ul:last-child,
-ol:last-child {
+ol:last-child,
+blockquote:last-child {
     margin: 0;
 }
 ul {
@@ -108,6 +110,10 @@ ul {
 }
 ol {
     list-style-type: decimal;
+}
+blockquote {
+    border-left: 2px solid #ccc;
+    padding: 0 0 0 1em;
 }
 a {
     color: #16a085;
@@ -252,6 +258,7 @@ li.discussion {
 .discussion,
 .comment {
     padding: .5em 0;
+    overflow: hidden;
 }
 #discussion .discussion,
 #discussion .comment {
