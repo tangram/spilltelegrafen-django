@@ -1,11 +1,11 @@
 {% load textiler %}
-<div class="{{ comment.classname }}{% if comment.author == user %} own{% endif %}">
+<div id="{{ comment.id }}" class="{{ comment.classname }}{% if comment.author == user %} own{% endif %}">
     <div class="meta clear">
         <a href="{{ comment.author.profile.url }}">
             <img class="avatar left" src="{{ comment.author.profile.avatar }}" alt="{{ comment.author }}">
         </a>
         <span class="user"><strong><a href="{{ comment.author.profile.url }}">{{ comment.author }}</a></strong></span>
-        <span class="datetime">{{ comment.created_time }}</span>
+        <span class="datetime">{{ comment.created_time_formatted }}</span>
 
         {% if user == comment.author or user.isadmin %}
         <span class="edit"><a href="/ajax{{ comment.get_absolute_url }}/rediger">Rediger</a></span>

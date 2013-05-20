@@ -1,8 +1,23 @@
 # coding: utf-8
 
+from __future__ import division
+
 from django.db import models
 from core.models import Content
 from django.contrib.auth.models import User
+from datetime import datetime
+from django.utils.dateformat import DateFormat
+from math import ceil
+
+def timestring(date):
+    now = datetime.now()
+    if now.date() == date.date():
+        return DateFormat(date).format('H:i')
+    elif now.year == date.year:
+        return DateFormat(date).format('j. F')
+    else:
+        return DateFormat(date).format('F Y')
+
 
 class Kudos(models.Model):
     '''Kudos class, inherit to add kudos'''
@@ -27,13 +42,24 @@ class Comment(Kudos):
     body = models.TextField(u'Kommentar')
 
     def get_absolute_url(self):
-        return '/kommentar/%s' % self.id
+        per_page = 10
+        orphans = 3
+        discussion = self.discussion_set.all()[0]
+        count = discussion.comment_count - orphans + 1
+        page = int(ceil(count / per_page))
+        if page > 1:
+            return '%s?side=%s#%s' % (discussion.get_absolute_url(), page, self.id)
+        else:
+            return '%s#%s' % (discussion.get_absolute_url(), self.id)
 
     def __unicode__(self):
         return u'%s...' % (self.body[0:50])
 
     def classname(self):
         return self.__class__.__name__.lower()
+
+    def created_time_formatted(self):
+        return timestring(self.created_time)
 
     class Meta:
         verbose_name = u'kommentar'
@@ -52,6 +78,12 @@ class Discussion(Content, Kudos):
 
     def classname(self):
         return self.__class__.__name__.lower()
+
+    def created_time_formatted(self):
+        return timestring(self.created_time)
+
+    def last_commented_formatted(self):
+        return timestring(self.created_time)
 
     class Meta:
         verbose_name = u'diskusjon'

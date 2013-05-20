@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-# from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -8,8 +7,7 @@ from forms import LoginForm, DiscussionForm, CommentForm
 from models import Discussion, Comment
 from core.models import Profile
 from core.forms import ProfileForm
-
-from pure_pagination import Paginator, PageNotAnInteger
+from pure_pagination import Paginator, PageNotAnInteger, EmptyPage
 
 def index(request):
     if not request.user.is_authenticated():
@@ -27,17 +25,21 @@ def index(request):
             else:
                 messages.error(request, u'Ugyldig brukernavn eller passord')
 
-    else:
+    if request.user.is_authenticated():
         form = None
         discussions = Discussion.objects.order_by('-last_commented')
 
         try:
-            page = request.GET.get('page', 1)
+            page = request.GET.get('side', 1)
         except PageNotAnInteger:
             page = 1
 
         p = Paginator(discussions, per_page=25, orphans=3, request=request)
-        discussions = p.page(page)
+
+        try:
+            discussions = p.page(page)
+        except EmptyPage:
+            discussions = p.page(1)
 
     variables = {
         'pagetitle': 'Alle diskusjoner',
@@ -55,16 +57,20 @@ def user_logout(request):
 def get_discussion(request, discussion_id=None):
     discussion = get_object_or_404(Discussion, id=discussion_id)
 
-    try:
-        page = request.GET.get('page', 1)
-    except PageNotAnInteger:
-        page = 1
-
     from itertools import chain
     comments = list(chain([discussion], discussion.comments.all()))
 
-    p = Paginator(comments, per_page=10, orphans=5, request=request)
-    comments = p.page(page)
+    try:
+        page = request.GET.get('side', 1)
+    except PageNotAnInteger:
+        page = 1
+
+    p = Paginator(comments, per_page=10, orphans=3, request=request)
+
+    try:
+        comments = p.page(page)
+    except EmptyPage:
+        comments = p.page(1)
 
     variables = {
         'pagetitle': discussion.title,
