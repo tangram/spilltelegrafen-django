@@ -17,7 +17,7 @@ class Profile(models.Model):
     #slug = AutoSlugField(populate_from=lambda instance: instance.user.username, unique=True)
 
     image = models.ImageField(
-        u'Brukerbilde', upload_to='brukerbilder')
+        u'Brukerbilde', upload_to='userpics')
     #avatar_image = ImageSpecField([ResizeToFill(50, 50)], image_field='image', options={'quality': 85})
     #avatar_large_image = ImageSpecField([ResizeToFill(200, 200)], image_field='image', options={'quality': 85})
 

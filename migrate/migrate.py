@@ -10,7 +10,11 @@ db = MySQLdb.connect(
     passwd='',
     db='vanilla'
 )
+db.set_character_set('utf8')
 cur = db.cursor(MySQLdb.cursors.DictCursor)
+cur.execute('SET NAMES utf8;')
+cur.execute('SET CHARACTER SET utf8;')
+cur.execute('SET character_set_connection=utf8;')
 
 # result lists
 users = []
@@ -31,7 +35,7 @@ for user in cur.fetchall():
                 'username': user['Name'],
                 'password': user['Password'][1:],  # django doesn't use first $
                 'email': user['Email'],
-                'date_joined': user['DateInserted'],
+                'date_joined': str(user['DateInserted']),
                 'is_superuser': user['Admin'] == 1,
                 'is_staff': user['Admin'] == 1,
             }
@@ -43,7 +47,7 @@ for user in cur.fetchall():
             'model': 'core.profile',
             'fields': {
                 'image': user['Photo'],
-                'last_seen': user['DateLastActive'],
+                'last_seen': str(user['DateLastActive']),
                 'discussion_count': user['CountDiscussions'],
                 'comment_count': user['CountComments'],
             }
@@ -63,7 +67,7 @@ for discussion in cur.fetchall():
     for k in cur.fetchall():
         kudos.append(k['UserID'])
 
-    if not discussion['DateDeleted']:
+    if not discussion['Closed']:
         discussions.append(
             {
                 'pk': discussion['DiscussionID'],
@@ -74,11 +78,11 @@ for discussion in cur.fetchall():
                     'body': discussion['Body'],
                     'comments': comment_list,
                     'comment_count': discussion['CountComments'],
-                    'created_time': discussion['DateInserted'],
-                    'edited_time': discussion['DateUpdated'],
+                    'created_time': str(discussion['DateInserted']),
+                    'edited_time': str(discussion['DateUpdated']),
                     'last_comment': discussion['LastCommentID'],
                     'last_commenter': discussion['LastCommentUserID'],
-                    'last_commented': discussion['DateLastComment'],
+                    'last_commented': str(discussion['DateLastComment']),
                     'kudos': kudos,
                 }
             }
@@ -88,7 +92,7 @@ cur.execute('SELECT * FROM GDN_Comment')
 for comment in cur.fetchall():
 
     kudos = []
-    cur.execute('SELECT UserID FROM GDN_Kudos WHERE CommentID = %s', discussion['CommentID'])
+    cur.execute('SELECT UserID FROM GDN_Kudos WHERE CommentID = %s', comment['CommentID'])
     for k in cur.fetchall():
         kudos.append(k['UserID'])
 
@@ -100,8 +104,8 @@ for comment in cur.fetchall():
                 'fields': {
                     'author': comment['InsertUserID'],
                     'body': comment['Body'],
-                    'created_time': comment['DateInserted'],
-                    'edited_time': comment['DateUpdated'],
+                    'created_time': str(comment['DateInserted']),
+                    'edited_time': str(comment['DateUpdated']),
                     'kudos': kudos,
                 }
             }
