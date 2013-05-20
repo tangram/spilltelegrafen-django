@@ -137,7 +137,7 @@ textarea {
     color: #fff;
     border: none;
     margin: 0;
-    padding: 5px 2em;
+    padding: 5px 1em;
     width: auto;
     background: #e67e22;
     font-weight: bold;
@@ -184,19 +184,27 @@ footer a {
     width: 15em;
     max-width: 100%;
 }
-.search-form {
-    float: right;
+#search-form {
+    position: relative;
 }
-.search-form input {
-    display: inline-block;
-    margin: 0;
+#search,
+#search-submit {
     border: none;
+    display: block;
 }
-.search-submit {
+#search {
+    width: 86%;
+    margin: 0 14% 0 0;
+    box-sizing: border-box;
+}
+#search-submit {
+    float: right;
     font-size: 2.5em;
     font-weight: normal;
+    text-align: center;
     padding: 0;
-    width: 29px;
+    width: 14%;
+    /* width: 29px; */
     height: 29px;
     box-sizing: border-box;
     vertical-align: bottom;
@@ -256,8 +264,25 @@ form .right .button {
     margin: 0 0 0 .5em;
 }
 
-/* UTILITY */
+#sidebar .button {
+    text-align: center;
+    width: 100%;
+    margin: 0 0 1em;
+}
+#sidebar .meta a {
+    margin: 0 1em 0 0;
+}
 
+/* UTILITY */
+.table {
+    display: table;
+}
+.table-row {
+    display: table-row;
+}
+.table-cell {
+    display: table-cell;
+}
 .left {
     float: left;
 }

@@ -15,8 +15,7 @@
 
 {% block content %}
 
-<div class="right">{% include "pagination.html" %}</div>
-<a class="button" href="{% url post_discussion %}">Start en ny diskusjon</a>
+<div class="right clear">{% include "pagination.html" %}</div>
 
 <ul id="discussions">
     {% for discussion in discussions %}
@@ -26,8 +25,7 @@
     {% endfor %}
 </ul>
 
-<div class="right">{% include "pagination.html" %}</div>
-<div class="clear"></div>
+<div class="right clear">{% include "pagination.html" %}</div>
 
 {% endblock %}
 
