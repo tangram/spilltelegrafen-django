@@ -1,28 +1,24 @@
 <div class="pagination">
-    {% if not content.has_previous %}
-    <span class="previous disabled">&lt;</span>
+    {% if page_obj.has_previous %}
+        <a href="?{{ page_obj.previous_page_number.querystring }}" class="prev">&lt;</a>
     {% else %}
-    <span class="previous"><a href="{{ content.query }}{{ content.previous_page_number }}">&lt;</a></span>
+        <span class="disabled prev">&lt;</span>
     {% endif %}
-
-    {% if content.paginator.show_first %}
-    <span><a href="{{ content.query }}1">1</a></span>
-    <span class="disabled">...</span>
-    {% endif %}
-
-    {% for n in content.paginator.page_numbers %}
-    <span{% if n == content.number %} class="active"{% endif %}><a href="{{ content.query }}{{ n }}">{{ n }}</a></span>
+    {% for page in page_obj.pages %}
+        {% if page %}
+            {% ifequal page page_obj.number %}
+                <span class="current page">{{ page }}</span>
+            {% else %}
+                <a href="?{{ page.querystring }}" class="page">{{ page }}</a>
+            {% endifequal %}
+        {% else %}
+            <span class="dots">...</span>
+        {% endif %}
     {% endfor %}
-
-    {% if content.paginator.show_last %}
-    <span class="disabled">...</span>
-    <span><a href="{{ content.query }}{{ content.paginator.num_pages }}">{{ content.paginator.num_pages }}</a></span>
-    {% endif %}
-
-    {% if not content.has_next %}
-    <span class="next disabled">&gt;</span>
+    {% if page_obj.has_next %}
+        <a href="?{{ page_obj.next_page_number.querystring }}" class="next">&gt;</a>
     {% else %}
-    <span class="next"><a href="{{ content.query }}{{ content.next_page_number }}">&gt;</a></span>
+        <span class="disabled next">&gt;</span>
     {% endif %}
 </div>
 <div class="loader"></div>

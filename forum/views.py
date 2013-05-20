@@ -9,10 +9,12 @@ from models import Discussion, Comment
 from core.models import Profile
 from core.forms import ProfileForm
 
+from pure_pagination import Paginator, PageNotAnInteger
+
 def index(request):
     if not request.user.is_authenticated():
-        discussions = None
         form = LoginForm()
+        discussions = None
         if request.POST:
             username = request.POST['username']
             password = request.POST['password']
@@ -26,8 +28,16 @@ def index(request):
                 messages.error(request, u'Ugyldig brukernavn eller passord')
 
     else:
-        discussions = Discussion.objects.order_by('-last_commented')
         form = None
+        discussions = Discussion.objects.order_by('-last_commented')
+
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        p = Paginator(discussions, per_page=25, orphans=3, request=request)
+        discussions = p.page(page)
 
     variables = {
         'pagetitle': 'Alle diskusjoner',
@@ -45,9 +55,21 @@ def user_logout(request):
 def get_discussion(request, discussion_id=None):
     discussion = get_object_or_404(Discussion, id=discussion_id)
 
+    try:
+        page = request.GET.get('page', 1)
+    except PageNotAnInteger:
+        page = 1
+
+    from itertools import chain
+    comments = list(chain([discussion], discussion.comments.all()))
+
+    p = Paginator(comments, per_page=10, orphans=5, request=request)
+    comments = p.page(page)
+
     variables = {
         'pagetitle': discussion.title,
         'discussion': get_object_or_404(Discussion, id=discussion_id),
+        'comments': comments,
         'form': CommentForm(),
     }
 

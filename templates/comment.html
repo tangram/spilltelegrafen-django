@@ -2,7 +2,7 @@
 <div class="{{ comment.classname }}{% if comment.author == user %} own{% endif %}">
     <div class="meta clear">
         <a href="{{ comment.author.profile.url }}">
-            <img class="avatar left margin" src="{{ comment.author.profile.avatar }}" alt="{{ comment.author }}">
+            <img class="avatar left" src="{{ comment.author.profile.avatar }}" alt="{{ comment.author }}">
         </a>
         <span class="user"><strong><a href="{{ comment.author.profile.url }}">{{ comment.author }}</a></strong></span>
         <span class="datetime">{{ comment.created_time }}</span>

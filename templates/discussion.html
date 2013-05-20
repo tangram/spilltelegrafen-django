@@ -15,20 +15,17 @@
 
 {% block content %}
 
-<div class="right">{% include "pagination.html" %}</div>
+<div class="right">{% with comments as page_obj %}{% include "pagination.html" %}{% endwith %}</div>
 
 <h2>{{ pagetitle }}</h2>
 <div id="discussion">
-	{% with discussion as comment %}
-	{% include "comment.html" %}
-	{% endwith %}
-	{% for comment in discussion.comments.all %}
+	{% for comment in comments.object_list %}
 	{% include "comment.html" %}
 	{% endfor %}
 </div>
 
 <a class="button" href="{% url index %}">Alle diskusjoner</a>
-<div class="right">{% include "pagination.html" %}</div>
+<div class="right">{% with comments as page_obj %}{% include "pagination.html" %}{% endwith %}</div>
 <div class="clear"></div>
 
 {% include "comment_form.html" %}

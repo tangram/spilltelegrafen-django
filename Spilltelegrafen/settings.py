@@ -133,15 +133,19 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'suit',
-    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'pure_pagination',
 
     'core',
     'magazine',
     'forum',
 )
+
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 2,
+    'MARGIN_PAGES_DISPLAYED': 1,
+}
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

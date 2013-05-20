@@ -123,11 +123,14 @@ a:hover {
     color: #1abc9c;
     text-decoration: none;
 }
+img {
+    max-width: 100%;
+}
 form input,
 textarea {
     display: block;
     border: 1px solid #ccc;
-    padding: 5px;
+    padding: .25em;
     margin: 0 0 .5em;
     box-sizing: border-box;
 }
@@ -143,7 +146,7 @@ textarea {
     color: #fff;
     border: none;
     margin: 0;
-    padding: 5px 1em;
+    padding: .25em 1em;
     width: auto;
     background: #e67e22;
     font-weight: bold;
@@ -199,8 +202,8 @@ footer a {
     display: block;
 }
 #search {
-    width: 86%;
-    margin: 0 14% 0 0;
+    width: 87%;
+    margin: 0 13% 0 0;
     box-sizing: border-box;
 }
 #search-submit {
@@ -209,9 +212,9 @@ footer a {
     font-weight: normal;
     text-align: center;
     padding: 0;
-    width: 14%;
-    /* width: 29px; */
-    height: 29px;
+    width: 13%;
+    /* width: 27px; */
+    height: 27px;
     box-sizing: border-box;
     vertical-align: bottom;
 }
@@ -239,11 +242,20 @@ footer a {
     font-size: 1.5em;
     line-height: 1em;
 }
+.pagination {
+    margin: .25em 0;
+    font-weight: bold;
+}
+.pagination .page,
+.pagination .dots,
+.pagination .next {
+    margin: 0 0 0 .25em;
+}
+.pagination .disabled {
+    color: #ccc;
+}
 
 /* CONTENT */
-img {
-    max-width: 100%;
-}
 #discussions,
 #discussion {
     margin: .5em 0 1em;
@@ -265,6 +277,9 @@ li.discussion {
     padding: .5em;
     margin: .5em 0 0;
 }
+.avatar {
+    margin: 0 .5em 0 0;
+}
 .meta {
     font-size: .8em;
 }
@@ -275,8 +290,8 @@ li.discussion {
     font-style: normal;
     color: #27ae60;
 }
-#discussion .meta {
-    margin: 0 0 .5em;
+#discussion .content {
+    margin: 1.25em 0 0;
 }
 .own {
     background: #ecf0f1;

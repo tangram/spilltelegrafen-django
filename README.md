@@ -3,7 +3,7 @@ spilltelegrafen-django
 
 Work in progress online magazine and forum.
 
-Dependencies: django.
+Dependencies: django, [django-pure-pagination](https://github.com/jamespacileo/django-pure-pagination)
 
 django-suit is not vital, and can be removed from installed apps.
 
