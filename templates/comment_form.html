@@ -1,5 +1,5 @@
 <a class="anchor" name="kommentar"></a>
-<form id="comment" action="{% url ajax_post_comment discussion.id %}" method="post">{% csrf_token %}
+<form id="comment" action="{% url 'ajax_post_comment' discussion.id %}" method="post">{% csrf_token %}
 
     {% for field in form %}
     {{ field }}
@@ -8,14 +8,14 @@
     {% endfor %}
     {% endfor %}
 
-    <input class="button tt" type="button" value="Last opp filer" title="" />    
+    <input class="button tt" type="button" value="Last opp filer" title="" />
 
     <div class="right">
         <span class="note tt" data-title="<strong>*fet*</strong><br><em>_kursiv_</em><br>h1. Overskrift<br>bq. Blokksitat<br><br>Blank linje skiller avsnitt<br><br>URL blir konvertert til lenke, eller<br>&quot;lenketekst&quot;:http://adresse<br><br>URL for bilde eller YouTube-video blir automatisk bygget inn">Formateringstips</span>
 
         <input class="button tt" type="button" value="Lagre utkast" title="Shift+Enter" />
 
-        <input class="button tt" type="submit" value="{% if comment.comment_id %}Legg inn kommentar{% else %}Lagre kommentar{% endif %}" title="Ctrl+Enter / ⌘+Enter" /> 
+        <input class="button tt" type="submit" value="{% if comment.comment_id %}Legg inn kommentar{% else %}Lagre kommentar{% endif %}" title="Ctrl+Enter / ⌘+Enter" />
 
         <div class="loader inline"></div>
     </div>

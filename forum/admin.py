@@ -1,5 +1,7 @@
 from django.contrib import admin
 from forum.models import Discussion, Comment
+from django import forms
+
 
 class DiscussionAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'created_time', 'edited_time', 'comment_count', 'last_commented', 'last_commenter', 'last_comment', 'status')

@@ -19,7 +19,6 @@ cur.execute('SET character_set_connection=utf8;')
 
 # result lists
 users = []
-profiles = []
 discussions = []
 comments = []
 
@@ -31,7 +30,7 @@ for user in cur.fetchall():
     users.append(
         {
             'pk': user['UserID'],
-            'model': 'auth.user',
+            'model': 'core.user',
             'fields': {
                 'username': user['Name'],
                 'password': user['Password'][1:],  # django doesn't use first $
@@ -39,19 +38,11 @@ for user in cur.fetchall():
                 'date_joined': str(user['DateInserted'] or datetime.now()),
                 'is_superuser': user['Admin'] == 1,
                 'is_staff': user['Admin'] == 1,
-            }
-        }
-    )
-    profiles.append(
-        {
-            'pk': user['UserID'],
-            'model': 'core.profile',
-            'fields': {
-                'user': user['UserID'],
                 'image': user['Photo'],
                 'last_seen': str(user['DateLastActive'] or datetime.now()),
                 'discussion_count': user['CountDiscussions'],
                 'comment_count': user['CountComments'],
+                'draft_count': user['CountDrafts'] or 0,
             }
         }
     )
@@ -85,7 +76,8 @@ for discussion in cur.fetchall():
                 'last_commenter': discussion['LastCommentUserID'],
                 'last_commented': str(discussion['DateLastComment'] or datetime.now()),
                 'kudos': kudos,
-                'status': 0 if discussion['Closed'] else 1
+                'status': 0 if discussion['Closed'] else 1,
+                'published': True,
             }
         }
     )
@@ -115,9 +107,6 @@ for comment in cur.fetchall():
 
 with open('users.json', 'w') as f:
     json.dump(users, f, indent=2)
-
-with open('profiles.json', 'w') as f:
-    json.dump(profiles, f, indent=2)
 
 with open('discussions.json', 'w') as f:
     json.dump(discussions, f, indent=2)

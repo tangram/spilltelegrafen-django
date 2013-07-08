@@ -24,7 +24,7 @@
 	{% endfor %}
 </div>
 
-<a class="button" href="{% url index %}">Alle diskusjoner</a>
+<a class="button" href="{% url 'index' %}">Alle diskusjoner</a>
 <div class="right">{% with comments as page_obj %}{% include "pagination.html" %}{% endwith %}</div>
 <div class="clear"></div>
 

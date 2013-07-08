@@ -3,8 +3,7 @@
 from __future__ import division
 
 from django.db import models
-from core.models import Content
-from django.contrib.auth.models import User
+from core.models import User, Content
 from datetime import datetime
 from django.utils.dateformat import DateFormat
 from math import ceil

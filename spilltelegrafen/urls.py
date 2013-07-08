@@ -8,6 +8,8 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^$', 'forum.views.index', name='index'),
+    url(r'^mine-diskusjoner$', 'forum.views.get_own_discussions', name='my_discussions'),
+    url(r'^mine-utkast$', 'forum.views.get_own_drafts', name='my_drafts'),
     url(r'^logg-ut$', 'forum.views.user_logout', name='logout'),
     url(r'^diskusjon/ny$', 'forum.views.post_discussion', name='post_discussion'),
     url(r'^diskusjon/(?P<discussion_id>[\d]+)$', 'forum.views.get_discussion', name='discussion'),
@@ -23,7 +25,7 @@ urlpatterns = patterns('',
     url(r'^diskusjon/(?P<discussion_id>[\d]+)/kudos/slett$', 'forum.views.ajax_kudos', name='ajax_discussion_unkudos'),
     url(r'^kommentar/(?P<comment_id>[\d]+)/kudos/slett$', 'forum.views.ajax_kudos', name='ajax_comment_unkudos'),
 
-    url(r'^profil/(?P<profile_id>[\d]+)$', 'forum.views.get_profile', name='profile'),
-    url(r'^profil/(?P<profile_id>[\d]+)$', 'forum.views.update_profile', name='update_profile'),
+    url(r'^bruker/(?P<user_id>[\d]+)$', 'forum.views.get_user', name='user'),
+    url(r'^bruker/(?P<user_id>[\d]+)$', 'forum.views.update_user', name='update_user'),
 
 )

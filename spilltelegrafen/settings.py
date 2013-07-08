@@ -1,11 +1,11 @@
-# Django settings for Spilltelegrafen project.
+# Django settings for spilltelegrafen project.
 import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('eirik', 'eirikkr@gmail.com'),
+    ('eirik', 'eirikkr@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -102,16 +102,22 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'Spilltelegrafen.urls'
+ROOT_URLCONF = 'spilltelegrafen.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'Spilltelegrafen.wsgi.application'
+WSGI_APPLICATION = 'spilltelegrafen.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(os.path.dirname(__file__), '..', 'templates'),
+)
+
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
 )
 
 PASSWORD_HASHERS = (
@@ -135,16 +141,66 @@ INSTALLED_APPS = (
     'suit',
     'django.contrib.admin',
     # 'django.contrib.admindocs',
+
+    'south',
+    'wymeditor',
+    'filer',
+    'mptt',
+    'easy_thumbnails',
     'pure_pagination',
+    'autocomplete_light',
+    'django_select2',
 
     'core',
     'magazine',
     'forum',
 )
 
+AUTH_USER_MODEL = 'core.User'
+
+SUIT_CONFIG = {
+    # header
+    'ADMIN_NAME': 'Spilltelegrafen admin',
+    'HEADER_DATE_FORMAT': 'l, j. F Y',
+
+    # menu
+    'SEARCH_URL': '/admin/core/',
+
+    'MENU': (
+        {'app': 'auth', 'label': 'Brukertilgang', 'icon': 'icon-lock'},
+        {'app': 'core', 'label': 'Kjerneinnhold', 'icon': 'icon-cog'},
+        {'app': 'filer', 'label': 'Filebehandling', 'icon': 'icon-file'},
+        {'app': 'forum', 'label': 'Forum', 'icon': 'icon-bullhorn'},
+        {'app': 'magazine', 'label': 'Magasin', 'icon': 'icon-book'},
+    ),
+
+    # misc
+    # 'LIST_PER_PAGE': 15
+}
+
 PAGINATION_SETTINGS = {
     'PAGE_RANGE_DISPLAYED': 2,
     'MARGIN_PAGES_DISPLAYED': 1,
+}
+
+FILER_STORAGES = {
+    'public': {
+        'main': {
+            'ENGINE': 'filer.storage.PublicFileSystemStorage',
+            'OPTIONS': {
+                'location': MEDIA_ROOT,
+                'base_url': '/media/',
+            },
+            'UPLOAD_TO': 'filer.utils.generate_filename.by_date',
+        },
+        'thumbnails': {
+            'ENGINE': 'filer.storage.PublicFileSystemStorage',
+            'OPTIONS': {
+                'location': MEDIA_ROOT,
+                'base_url': '/media/',
+            },
+        },
+    },
 }
 
 # A sample logging configuration. The only tangible logging

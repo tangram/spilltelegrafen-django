@@ -16,9 +16,9 @@
 {% block content %}
 
 <div class="right">{% with discussions as page_obj %}{% include "pagination.html" %}{% endwith %}</div>
-<a class="button" href="{% url index %}">Alle diskusjoner</a>
-<a class="button" href="">Mine diskusjoner</a>
-<a class="button" href="">Mine utkast</a>
+<a class="button" href="{% url 'index' %}">Alle diskusjoner</a>
+<a class="button" href="{% url 'my_discussions' %}">Mine diskusjoner&nbsp;<span class="badge">{{ user.profile.discussion_count }}</span></a>
+<a class="button" href="{% url 'my_drafts' %}">Mine utkast&nbsp;<span class="badge">0</span></a>
 
 <ul id="discussions">
     {% for discussion in discussions.object_list %}

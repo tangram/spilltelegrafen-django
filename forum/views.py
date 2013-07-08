@@ -5,8 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from forms import LoginForm, DiscussionForm, CommentForm
 from models import Discussion, Comment
-from core.models import Profile
-from core.forms import ProfileForm
+from core.models import User
+from core.forms import UserForm
 from pure_pagination import Paginator, PageNotAnInteger, EmptyPage
 
 def index(request):
@@ -54,6 +54,52 @@ def user_logout(request):
     return redirect(index)
 
 @login_required()
+def get_own_discussions(request):
+    discussions = Discussion.objects.filter(author=request.user).order_by('-last_commented')
+
+    try:
+        page = request.GET.get('side', 1)
+    except PageNotAnInteger:
+        page = 1
+
+    p = Paginator(discussions, per_page=25, orphans=3, request=request)
+
+    try:
+        discussions = p.page(page)
+    except EmptyPage:
+        discussions = p.page(1)
+
+    variables = {
+        'pagetitle': 'Alle diskusjoner',
+        'discussions': discussions,
+    }
+
+    return render(request, 'discussion_index.html', variables)
+
+@login_required()
+def get_own_drafts(request):
+    discussions = Discussion.objects.filter(author=request.user).filter(published=False).order_by('-created_time')
+
+    try:
+        page = request.GET.get('side', 1)
+    except PageNotAnInteger:
+        page = 1
+
+    p = Paginator(discussions, per_page=25, orphans=3, request=request)
+
+    try:
+        discussions = p.page(page)
+    except EmptyPage:
+        discussions = p.page(1)
+
+    variables = {
+        'pagetitle': 'Alle diskusjoner',
+        'discussions': discussions,
+    }
+
+    return render(request, 'discussion_index.html', variables)
+
+@login_required()
 def get_discussion(request, discussion_id=None):
     discussion = get_object_or_404(Discussion, id=discussion_id)
 
@@ -90,9 +136,9 @@ def post_discussion(request):
             discussion.author = request.user
             discussion.save()
 
-            profile = request.user.profile
-            profile.discussion_count += 1
-            profile.save()
+            user = request.user
+            user.discussion_count += 1
+            user.save()
 
             return redirect(discussion)
     else:
@@ -123,9 +169,9 @@ def delete_discussion(request, discussion_id=None):
     discussion = get_object_or_404(Discussion, id=discussion_id)
     if request.POST:
         if request.user == discussion.author or request.user.is_staff() or request.user.is_superuser:
-            profile = discussion.author.profile
-            profile.discussion_count -= 1
-            profile.save()
+            user = discussion.author
+            user.discussion_count -= 1
+            user.save()
 
             discussion.delete()
 
@@ -155,9 +201,9 @@ def ajax_post_comment(request, discussion_id=None):
             discussion.last_comment = comment
             discussion.save()
 
-            profile = request.user.profile
-            profile.comment_count += 1
-            profile.save()
+            user = request.user
+            user.comment_count += 1
+            user.save()
 
             return render(request, 'comment.html', { 'comment': comment })
 
@@ -179,9 +225,9 @@ def ajax_delete_comment(request, discussion_id=None, comment_id=None):
     comment = get_object_or_404(Comment, id=comment_id)
     if request.POST:
         if request.user == comment.author or request.user.is_staff() or request.user.is_superuser:
-            profile = comment.author.profile
-            profile.comment_count -= 1
-            profile.save()
+            user = comment.author
+            user.comment_count -= 1
+            user.save()
 
             discussion.comment_count -= 1
             discussion.last_comment = discussion.comments.all()[:-1]
@@ -230,31 +276,31 @@ def ajax_unkudos(request, discussion_id=None, comment_id=None):
     return redirect(discussion.last_comment)
 
 @login_required()
-def get_profile(request, profile_id=None):
-    profile = get_object_or_404(Profile, id=profile_id)
+def get_user(request, user_id=None):
+    user = get_object_or_404(User, id=user_id)
 
     variables = {
-        'pagetitle': profile.user,
+        'pagetitle': user,
     }
 
-    return render(request, 'profile.html', variables)
+    return render(request, 'user.html', variables)
 
 @login_required()
-def update_profile(request, profile_id=None):
-    profile = get_object_or_404(Profile, id=profile_id)
+def update_user(request, user_id=None):
+    user = get_object_or_404(User, id=user_id)
 
     if request.POST:
-        form = ProfileForm(request.POST, instance=profile)
+        form = UserForm(request.POST, instance=user)
         if form.is_valid():
-            profile = form.save()
-            profile.save()
-            return redirect(profile)
+            user = form.save()
+            user.save()
+            return redirect(user)
     else:
-        form = ProfileForm(instance=profile)
+        form = UserForm(instance=user)
 
     variables = {
         'pagetitle': 'Rediger profil',
         'form': form,
     }
 
-    return render(request, 'profile_form.html', variables)
+    return render(request, 'user_form.html', variables)

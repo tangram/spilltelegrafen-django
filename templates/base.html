@@ -8,21 +8,23 @@
         {% block meta %}{% endblock %}
 
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto+Slab">
+        <link rel="stylesheet" href="http://weloveiconfonts.com/api/?family=entypo">
         <link rel="stylesheet" href="/static/css/normalize.min.css">
         <link rel="stylesheet" href="/static/css/style.css">
+        <link rel="stylesheet" href="/static/css/widearea.min.css">
         {% block styles %}{% endblock %}
     </head>
     <body>
         <div id="wrapper">
             <header class="row">
                 <div class="nine col">
-                    <a href="{% url index %}"><img id="logo" class="left" src="/static/img/logo.png"></a>
-                    <a href="{% url index %}"><h1 id="sitename">Spilltelegrafen forum</h1></a>
+                    <a href="{% url 'index' %}"><img id="logo" class="left" src="/static/img/logo.png"></a>
+                    <a href="{% url 'index' %}"><h1 id="sitename">Spilltelegrafen forum</h1></a>
                 </div>
                 <div class="three col">
-                    <form id="search-form" action="{% url index %}" method="get">
-                        <input id="search-submit" class="button entypo-search" type="submit" value="&#128269;">
+                    <form id="search-form" action="{% url 'index' %}" method="get">
                         <input id="search" type="search" name="q" placeholder="Søk">
+                        <input id="search-submit" class="button entypo-search" type="submit" value="&#128269;">
                     </form>
                 </div>
                 {% block header %}{% endblock %}
@@ -46,7 +48,7 @@
                     {% else %}
                     <h2>Dette er et lukket forum.</h2>
                     <p>Medlemmer kan logge inn under.</p>
-                    <form id="login" action="{% url index %}" method="post">{% csrf_token %}
+                    <form id="login" action="{% url 'index' %}" method="post">{% csrf_token %}
                         {% for field in login_form %}
                         {{ field }}
                         {% for error in field.errors %}
@@ -59,11 +61,11 @@
                 </div>
                 <div id="sidebar" class="three col">
                     {% if user.is_authenticated %}
-                    <a class="button right" href="{% url post_discussion %}">Start en ny diskusjon</a>
+                    <a class="button right" href="{% url 'post_discussion' %}">Start en ny diskusjon</a>
                     <div class="meta">
                         <a href="{{ user.profile.get_absolute_url }}"><img class="avatar left" src="{{ user.profile.avatar }}"></a>
                         <strong><a href="{{ user.profile.get_absolute_url }}">{{ user }}</a></strong>
-                        <a class="right" href="{% url logout %}">Logg ut</a>
+                        <a class="right" href="{% url 'logout' %}">Logg ut</a>
                     </div>
                     {% endif %}
                 </div>
@@ -81,6 +83,7 @@
 
         <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
         <script>window.jQuery || document.write('<script src="/static/js/jquery-1.8.1.min.js"><\/script>')</script>
+        <script src="/static/js/widearea.js"></script>
         <script src="/static/js/script.js"></script>
         {% block scripts %}{% endblock %}
 

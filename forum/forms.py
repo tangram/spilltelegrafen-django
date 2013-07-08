@@ -9,14 +9,29 @@ class LoginForm(AuthenticationForm):
         self.fields['password'].widget.attrs['placeholder'] = u'Passord'
 
 class DiscussionForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
-	    super(DiscussionForm, self).__init__(*args, **kwargs)
-	    self.fields['title'].widget.attrs['placeholder'] = u'Tittel'
-
-	class Meta:
-		model = Discussion
-		fields = ('title', 'body')
+    class Meta:
+        model = Discussion
+        fields = ('title', 'body')
+        widgets = {
+            'title': forms.TextInput(
+                attrs={
+                    'placeholder': u'Tittel'
+                }
+            ),
+            'body': forms.Textarea(
+                attrs={
+                    'data-widearea': 'enable'
+                }
+            ),
+        }
 
 class CommentForm(forms.ModelForm):
-	class Meta:
-		model = Comment
+    class Meta():
+        model = Comment
+        widgets = {
+            'body': forms.Textarea(
+                attrs={
+                    'data-widearea': 'enable'
+                }
+            ),
+        }

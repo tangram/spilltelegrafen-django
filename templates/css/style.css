@@ -54,7 +54,6 @@
 
 /* STYLES */
 
-@import url(http://weloveiconfonts.com/api/?family=entypo);
 [class*="entypo-"] {
   font-family: 'entypo', sans-serif;
 }
@@ -128,6 +127,7 @@ img {
 }
 form input,
 textarea {
+    font-family: Helvetica, Arial, sans-serif;
     display: block;
     border: 1px solid #ccc;
     padding: .25em;
@@ -138,9 +138,13 @@ input[type="text"],
 textarea {
     width: 100%;
 }
-#id_body {
+textarea {
     height: 7em;
     margin: 1em 0;
+}
+textarea.widearea-fullscreen {
+    font-family: Georgia, serif;
+    outline: none;
 }
 .button {
     color: #fff;
@@ -195,6 +199,8 @@ footer a {
 }
 #search-form {
     position: relative;
+    height: 27px;
+    top: 3px;
 }
 #search,
 #search-submit {
@@ -202,19 +208,23 @@ footer a {
     display: block;
 }
 #search {
-    width: 87%;
-    margin: 0 13% 0 0;
+    position: absolute;
+    left: 0;
+    right: 27px;
     box-sizing: border-box;
 }
 #search-submit {
     float: right;
-    font-size: 2.5em;
     font-weight: normal;
     text-align: center;
     padding: 0;
-    width: 13%;
-    /* width: 27px; */
+    width: 27px;
     height: 27px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
     box-sizing: border-box;
     vertical-align: bottom;
 }
@@ -254,6 +264,12 @@ footer a {
 .pagination .disabled {
     color: #ccc;
 }
+.badge {
+    font-size: .8em;
+    background: #7f8c8d;
+    margin: 0 0 0 .5em;
+    padding: .1em .4em;
+}
 
 /* CONTENT */
 #discussions,
@@ -278,20 +294,32 @@ li.discussion {
     margin: .5em 0 0;
 }
 .avatar {
-    margin: 0 .5em 0 0;
+    margin: 0 1em 0 0;  
 }
 .meta {
     font-size: .8em;
 }
-.meta span + span {
-    margin: 0 0 0 1em;
+.meta span {
+    display: inline-block;
+    margin: 0 1em 0 0;
+}
+#discussion .meta span {
+    margin: 0 1em .5em 0;
 }
 .meta em {
     font-style: normal;
     color: #27ae60;
 }
 #discussion .content {
-    margin: 1.25em 0 0;
+    margin: .5em 0 0;
+}
+#discussion .content img,
+#discussion .content iframe {
+    margin: 0 0 1.25em;
+}
+#discussion .content img:last-child,
+#discussion .content iframe:last-child {
+    margin: 0;
 }
 .own {
     background: #ecf0f1;
@@ -364,5 +392,21 @@ form .right .button {
 /* RESPONSIVENESS */
 
 @media (max-width: 640px) {
-
+    #logo {
+        float: none;
+        position: relative;
+        top: 2px;
+    }
+    header {
+        text-align: center;
+    }
+    #search-form {
+        margin: 1em 0 .5em;
+    }
+    .button {
+        margin: 0 0 .5em 0;
+    }
+    form .right .button {
+        margin: 0 0 .5em .5em;
+    }
 }

@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser, Group
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 
@@ -11,10 +11,8 @@ from django.contrib.contenttypes import generic
 #from autoslug import AutoSlugField
 
 # USERS
-class Profile(models.Model):
-    '''User profile, connected to a User'''
-    user = models.OneToOneField(User)
-    #slug = AutoSlugField(populate_from=lambda instance: instance.user.username, unique=True)
+class User(AbstractUser):
+    #slug = AutoSlugField(populate_from=username, unique=True)
 
     image = models.ImageField(
         u'Brukerbilde', upload_to='userpics')
@@ -27,6 +25,7 @@ class Profile(models.Model):
     last_seen = models.DateTimeField(auto_now=True, editable=False)
     discussion_count = models.PositiveSmallIntegerField(default=0, editable=False)
     comment_count = models.PositiveSmallIntegerField(default=0, editable=False)
+    draft_count = models.PositiveSmallIntegerField(default=0, editable=False)
 
     def avatar(self):
         # if self.image:
@@ -39,11 +38,11 @@ class Profile(models.Model):
         return src
 
     def get_absolute_url(self):
-        return '/profil/%s' % self.user
+        return '/profil/%s' % self.username
 
     class Meta:
-        verbose_name = u'brukerprofil'
-        verbose_name_plural = u'brukerprofiler'
+        verbose_name = u'bruker'
+        verbose_name_plural = u'brukere'
 
 
 # CONTENT
@@ -59,7 +58,6 @@ class Content(models.Model):
 
     status = models.PositiveSmallIntegerField(default=1, editable=False)
     comment_count = models.PositiveSmallIntegerField(default=0, editable=False)
-    view_count = models.PositiveSmallIntegerField(default=0, editable=False)
 
     body = models.TextField(u'Brødtekst')
 
@@ -93,14 +91,14 @@ class StaticPage(Content):
 # FLAGS
 class Flag(models.Model):
     name = models.CharField(max_length=255)
-    creator = models.ForeignKey(User)
+    author = models.ForeignKey(User)
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content = generic.GenericForeignKey()
     created_time = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
-        return u'%s, %s, %s' % (self.creator, self.name, self.content.title)
+        return u'%s, %s, %s' % (self.author, self.name, self.content.title)
 
     class Meta:
         verbose_name = u'flagg'
